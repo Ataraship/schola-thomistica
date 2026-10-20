@@ -10,33 +10,115 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as BibliotecaRouteImport } from './routes/biblioteca'
+import { Route as DisputatioRouteImport } from './routes/disputatio'
+import { Route as FormacaoRouteImport } from './routes/formacao'
+import { Route as IdiomasRouteImport } from './routes/idiomas'
+import { Route as SumaRouteImport } from './routes/suma'
+import { Route as ApiTtsRouteImport } from './routes/api/tts'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BibliotecaRoute = BibliotecaRouteImport.update({
+  id: '/biblioteca',
+  path: '/biblioteca',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DisputatioRoute = DisputatioRouteImport.update({
+  id: '/disputatio',
+  path: '/disputatio',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FormacaoRoute = FormacaoRouteImport.update({
+  id: '/formacao',
+  path: '/formacao',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const IdiomasRoute = IdiomasRouteImport.update({
+  id: '/idiomas',
+  path: '/idiomas',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SumaRoute = SumaRouteImport.update({
+  id: '/suma',
+  path: '/suma',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiTtsRoute = ApiTtsRouteImport.update({
+  id: '/api/tts',
+  path: '/api/tts',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/biblioteca': typeof BibliotecaRoute
+  '/disputatio': typeof DisputatioRoute
+  '/formacao': typeof FormacaoRoute
+  '/idiomas': typeof IdiomasRoute
+  '/suma': typeof SumaRoute
+  '/api/tts': typeof ApiTtsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/biblioteca': typeof BibliotecaRoute
+  '/disputatio': typeof DisputatioRoute
+  '/formacao': typeof FormacaoRoute
+  '/idiomas': typeof IdiomasRoute
+  '/suma': typeof SumaRoute
+  '/api/tts': typeof ApiTtsRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/biblioteca': typeof BibliotecaRoute
+  '/disputatio': typeof DisputatioRoute
+  '/formacao': typeof FormacaoRoute
+  '/idiomas': typeof IdiomasRoute
+  '/suma': typeof SumaRoute
+  '/api/tts': typeof ApiTtsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/biblioteca'
+    | '/disputatio'
+    | '/formacao'
+    | '/idiomas'
+    | '/suma'
+    | '/api/tts'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/biblioteca'
+    | '/disputatio'
+    | '/formacao'
+    | '/idiomas'
+    | '/suma'
+    | '/api/tts'
+  id:
+    | '__root__'
+    | '/'
+    | '/biblioteca'
+    | '/disputatio'
+    | '/formacao'
+    | '/idiomas'
+    | '/suma'
+    | '/api/tts'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  BibliotecaRoute: typeof BibliotecaRoute
+  DisputatioRoute: typeof DisputatioRoute
+  FormacaoRoute: typeof FormacaoRoute
+  IdiomasRoute: typeof IdiomasRoute
+  SumaRoute: typeof SumaRoute
+  ApiTtsRoute: typeof ApiTtsRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +130,59 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/biblioteca': {
+      id: '/biblioteca'
+      path: '/biblioteca'
+      fullPath: '/biblioteca'
+      preLoaderRoute: typeof BibliotecaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/disputatio': {
+      id: '/disputatio'
+      path: '/disputatio'
+      fullPath: '/disputatio'
+      preLoaderRoute: typeof DisputatioRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/formacao': {
+      id: '/formacao'
+      path: '/formacao'
+      fullPath: '/formacao'
+      preLoaderRoute: typeof FormacaoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/idiomas': {
+      id: '/idiomas'
+      path: '/idiomas'
+      fullPath: '/idiomas'
+      preLoaderRoute: typeof IdiomasRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/suma': {
+      id: '/suma'
+      path: '/suma'
+      fullPath: '/suma'
+      preLoaderRoute: typeof SumaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/tts': {
+      id: '/api/tts'
+      path: '/api/tts'
+      fullPath: '/api/tts'
+      preLoaderRoute: typeof ApiTtsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  BibliotecaRoute: BibliotecaRoute,
+  DisputatioRoute: DisputatioRoute,
+  FormacaoRoute: FormacaoRoute,
+  IdiomasRoute: IdiomasRoute,
+  SumaRoute: SumaRoute,
+  ApiTtsRoute: ApiTtsRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
