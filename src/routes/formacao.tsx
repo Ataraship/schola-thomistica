@@ -14,8 +14,8 @@ export const Route = createFileRoute("/formacao")({
 function Formacao() {
   const [trackId, setTrackId] = useState("logica");
   const track = TRACKS.find((t) => t.id === trackId)!;
-  const [lessonId, setLessonId] = useState(track.lessons[0].id);
-  const lesson = track.lessons.find((l) => l.id === lessonId) ?? track.lessons[0];
+  const [lessonId, setLessonId] = useState(track.lessons[0]!.id);
+  const lesson = track.lessons.find((l) => l.id === lessonId) ?? track.lessons[0]!;
   const { progress, toggle, setLast, setNote } = useProgress();
   const [pick, setPick] = useState<number | null>(null);
   const prereq = TRACKS.find((t) => t.id === track.prereq);
@@ -27,12 +27,12 @@ function Formacao() {
       <PageTitle kicker="Fundamenta" title="Formação Fundamental">Navegação livre. Os pré-requisitos são sugestões, não travas.</PageTitle>
       <div role="tablist" aria-label="Trilhas" className="flex flex-wrap gap-2">
         {TRACKS.map((t) => (
-          <button key={t.id} role="tab" aria-selected={t.id === trackId} onClick={() => { setTrackId(t.id); setLessonId(t.lessons[0].id); }}
+          <button key={t.id} role="tab" aria-selected={t.id === trackId} onClick={() => { setTrackId(t.id); setLessonId(t.lessons[0]!.id); }}
             className={`btn ${t.id === trackId ? "" : "btn-ghost"}`}>{t.title}</button>
         ))}
       </div>
       <p className="mt-4 italic text-muted-foreground">{track.latin} — {track.summary}</p>
-      {prereq && <p className="text-sm mt-1">Sugestão: estude antes <button className="underline text-primary" onClick={() => { setTrackId(prereq.id); setLessonId(prereq.lessons[0].id); }}>{prereq.title}</button>.</p>}
+      {prereq && <p className="text-sm mt-1">Sugestão: estude antes <button className="underline text-primary" onClick={() => { setTrackId(prereq.id); setLessonId(prereq.lessons[0]!.id); }}>{prereq.title}</button>.</p>}
 
       <div className="mt-4 flex flex-wrap gap-2">
         {track.lessons.map((l, i) => (
@@ -55,7 +55,7 @@ function Formacao() {
             {lesson.options.map((o, i) => (
               <button key={i} onClick={() => setPick(i)} className="text-left field">{o.text}</button>
             ))}
-            {pick !== null && <p role="status" className={lesson.options[pick].correct ? "text-secondary" : "text-primary"}>{lesson.options[pick].why}</p>}
+            {pick !== null && <p role="status" className={lesson.options[pick]!.correct ? "text-secondary" : "text-primary"}>{lesson.options[pick]!.why}</p>}
           </div>
         ) : (
           <>
