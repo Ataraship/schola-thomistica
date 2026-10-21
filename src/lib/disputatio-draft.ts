@@ -1,4 +1,5 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
+import { guardPendingStorage, writeWithStorageLock } from "@/lib/storage-lock";
 
 export const DISPUTATIO_KEY = "schola-disputatio-v1";
 const CHANGED = "schola-disputatio-changed";
@@ -8,6 +9,10 @@ const WRITE_ERROR =
   "O navegador não conseguiu salvar sua disputatio. O texto continua nesta página; copie-o antes de sair.";
 type Draft = Record<string, unknown>;
 type Snapshot = { values: Record<string, string>; storageError: string | null };
+let known: Draft = {};
+let pending: Record<string, string> = {};
+let writeFailed = false;
+let releaseGuard: (() => void) | undefined;
 
 function readDraft(fallback: Draft): {
   document: Draft;
@@ -38,52 +43,71 @@ function textFields(document: Draft): Record<string, string> {
   );
 }
 
-/** Keep the original flat v1 document and merge only the student's edited fields. */
-export function useDisputatioDraft() {
-  const known = useRef<Draft>({});
-  const pending = useRef<Record<string, string>>({});
-  const [snapshot, setSnapshot] = useState<Snapshot>({ values: {}, storageError: null });
+function read(): Snapshot {
+  const stored = readDraft(known);
+  if (!stored.storageError) known = stored.document;
+  return {
+    values: textFields({ ...stored.document, ...pending }),
+    storageError: Object.keys(pending).length && writeFailed ? WRITE_ERROR : stored.storageError,
+  };
+}
 
-  const refresh = useCallback(() => {
-    const stored = readDraft(known.current);
-    if (!stored.storageError) known.current = stored.document;
-    setSnapshot({
-      values: textFields({ ...stored.document, ...pending.current }),
-      storageError: Object.keys(pending.current).length ? WRITE_ERROR : stored.storageError,
-    });
+/** Keep the original flat v1 document, including edits pending across SPA navigation. */
+export function useDisputatioDraft() {
+  const [snapshot, setSnapshot] = useState<Snapshot>({ values: {}, storageError: null });
+  useEffect(() => {
+    setSnapshot(read());
+    const changed = (event: Event) => setSnapshot((event as CustomEvent<Snapshot>).detail);
+    const stored = (event: StorageEvent) => {
+      if (event.key === DISPUTATIO_KEY || event.key === null) setSnapshot(read());
+    };
+    window.addEventListener("storage", stored);
+    window.addEventListener(CHANGED, changed);
+    return () => {
+      window.removeEventListener("storage", stored);
+      window.removeEventListener(CHANGED, changed);
+    };
   }, []);
 
-  useEffect(() => {
-    refresh();
-    const changed = (event: StorageEvent) => {
-      if (event.key === DISPUTATIO_KEY || event.key === null) refresh();
-    };
-    window.addEventListener("storage", changed);
-    window.addEventListener(CHANGED, refresh);
-    return () => {
-      window.removeEventListener("storage", changed);
-      window.removeEventListener(CHANGED, refresh);
-    };
-  }, [refresh]);
-
   const setField = useCallback((id: string, value: string) => {
-    pending.current = { ...pending.current, [id]: value };
-    const stored = readDraft(known.current);
-    const next = { ...stored.document, ...pending.current };
-    let storageError: string | null = null;
-    try {
-      // Do not overwrite bytes that could not be read or backed up.
-      if (stored.raw === undefined) throw new Error("Cannot preserve unread draft");
-      if (stored.storageError && stored.raw !== null)
-        localStorage.setItem(`${DISPUTATIO_KEY}-recovery-${Date.now()}`, stored.raw);
-      localStorage.setItem(DISPUTATIO_KEY, JSON.stringify(next));
-      pending.current = {};
-      known.current = next;
-    } catch {
-      storageError = WRITE_ERROR;
-    }
-    setSnapshot({ values: textFields(next), storageError });
-    if (!storageError) window.dispatchEvent(new Event(CHANGED));
+    pending = { ...pending, [id]: value };
+    releaseGuard ??= guardPendingStorage(() => Object.keys(pending).length > 0);
+    const publish = (result: Snapshot) => {
+      setSnapshot(result);
+      window.dispatchEvent(new CustomEvent(CHANGED, { detail: result }));
+    };
+    // Typing remains immediate while another tab holds the asynchronous lock.
+    publish(read());
+    writeWithStorageLock(
+      DISPUTATIO_KEY,
+      () => {
+        if (!Object.keys(pending).length) return;
+        // Re-read only after acquisition so another writer's new fields are retained.
+        const stored = readDraft(known);
+        const next = { ...stored.document, ...pending };
+        let storageError: string | null = null;
+        try {
+          if (stored.raw === undefined) throw new Error("Cannot preserve unread draft");
+          if (stored.storageError && stored.raw !== null)
+            localStorage.setItem(`${DISPUTATIO_KEY}-recovery-${Date.now()}`, stored.raw);
+          localStorage.setItem(DISPUTATIO_KEY, JSON.stringify(next));
+          pending = {};
+          known = next;
+          writeFailed = false;
+          releaseGuard?.();
+          releaseGuard = undefined;
+        } catch {
+          writeFailed = true;
+          storageError = WRITE_ERROR;
+        }
+        publish({ values: textFields(next), storageError });
+      },
+      () => {
+        if (!Object.keys(pending).length) return;
+        writeFailed = true;
+        publish({ ...read(), storageError: WRITE_ERROR });
+      },
+    );
   }, []);
 
   return { ...snapshot, setField };

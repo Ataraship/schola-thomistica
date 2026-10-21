@@ -5,7 +5,11 @@ import { DISPUTATIO_KEY, useDisputatioDraft } from "@/lib/disputatio-draft";
 import { PROGRESS_KEY } from "@/lib/progress";
 import { Disputatio } from "@/routes/disputatio";
 
-beforeEach(() => localStorage.clear());
+beforeEach(() => {
+  localStorage.clear();
+  const empty = renderHook(useDisputatioDraft);
+  empty.unmount();
+});
 afterEach(() => {
   cleanup();
   vi.restoreAllMocks();
@@ -52,7 +56,7 @@ describe("guided disputatio", () => {
 
   it("reports a write failure without interrupting the student's editing", () => {
     render(<Disputatio />);
-    vi.spyOn(Storage.prototype, "setItem").mockImplementation(() => {
+    const failedWrite = vi.spyOn(Storage.prototype, "setItem").mockImplementation(() => {
       throw new DOMException("Full", "QuotaExceededError");
     });
     fireEvent.change(screen.getByLabelText("Premissas"), {
@@ -60,6 +64,11 @@ describe("guided disputatio", () => {
     });
     expect(screen.getByLabelText("Premissas")).toHaveValue("Não perder este raciocínio");
     expect(screen.getByRole("alert")).toHaveTextContent("copie-o antes de sair");
+    failedWrite.mockRestore();
+    fireEvent.change(screen.getByLabelText("Premissas"), {
+      target: { value: "Raciocínio recuperado" },
+    });
+    expect(screen.queryByRole("alert")).not.toBeInTheDocument();
   });
 });
 
@@ -110,6 +119,9 @@ describe("compatible disputatio storage", () => {
     expect(result.current.storageError).toBeTruthy();
     expect(write).toHaveBeenCalledTimes(1);
     expect(localStorage.getItem(DISPUTATIO_KEY)).toBe("[original incompatible document]");
+    write.mockRestore();
+    act(() => result.current.setField("tese", "Recuperado"));
+    expect(result.current.storageError).toBeNull();
   });
 
   it("keeps pending field edits across a quota failure and merges newer work from another tab", () => {
