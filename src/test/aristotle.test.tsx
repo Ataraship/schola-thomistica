@@ -126,7 +126,7 @@ describe("bibliographic scope and curriculum compatibility", () => {
     expect(screen.queryByRole("link")).not.toBeInTheDocument();
   });
 
-  it("preserves the thirteen lesson IDs and titles, the old reference sets and unique reference IDs", () => {
+  it("preserves existing lesson IDs and titles alongside the illumination lesson and reference sets", () => {
     expect(
       TRACKS.flatMap((track) => track.lessons.map((lesson) => [lesson.id, lesson.title])),
     ).toEqual([
@@ -142,6 +142,7 @@ describe("bibliographic scope and curriculum compatibility", () => {
       ["ari-1", "As quatro causas"],
       ["met-1", "Ato e potência"],
       ["pat-1", "Agostinho: crede ut intelligas"],
+      ["pat-agostinho-iluminacao", "Iluminação: compreender não é recordar uma vida anterior"],
       ["tom-1", "Como ler um artigo da Suma"],
     ]);
     expect(EXISTING_REFERENCES).toHaveLength(9);

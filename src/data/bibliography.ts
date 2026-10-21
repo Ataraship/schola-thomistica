@@ -293,13 +293,26 @@ export const EXISTING_REFERENCES: readonly BibliographicReference[] = [
       "O anexo ANGAML-3 reúne livros I–III e não foi usado como se contivesse Θ (IX). A consulta deste último foi feita na fonte pública identificada, sem reproduzir a tradução.",
     ],
   },
-  legacy(
-    "agostinho",
-    "Santo Agostinho",
-    "Confissões; A Cidade de Deus",
-    "Interioridade, tempo e as duas cidades.",
-    "patristica",
-  ),
+  {
+    ...legacy(
+      "agostinho",
+      "Santo Agostinho",
+      "Confissões; A Cidade de Deus",
+      "Fé, interioridade e as duas cidades.",
+      "patristica",
+    ),
+    idioma: "Originais latinos; consultas em português e inglês, não incorporadas",
+    cobertura:
+      "Consulta parcial de Confissões VI, 4–5, no anexo português de 687 páginas que apresenta livros I–XIII; e A Cidade de Deus XI, 26, no volume inglês identificado. Não são textos integrais integrados ao aplicativo.",
+    origemVerificacao: "anexo-inspecao-parcial",
+    direitos:
+      "As aulas são autorais. Nenhum PDF ou tradução foi incorporado. O anexo de Confissões contém uma declaração editorial de permissão de cópia com citação; seu alcance e origem jurídica não foram validados nesta consulta.",
+    notasDeVerificacao: [
+      "Confissões: conferidos no anexo os créditos de J. Oliveira Santos e A. Ambrósio de Pina (tradução), Souza Campos, E. L. de (revisão/atualização/notas), Valdemar Teodoro Editor, Niterói, 2024. Consulta dos capítulos VI, 4–5 comparada com E. B. Pusey, Gutenberg 3296; sem leitura integral.",
+      "A Cidade de Deus XI, 26: consultado o volume I inglês editado por Marcus Dods, 1871, Gutenberg 45304. Comentários editoriais posteriores, inclusive a comparação com Descartes, não são atribuídos como texto de Agostinho.",
+      "A fórmula crede ut intelligas do título da aula não foi localizada como citação literal nas passagens de Confissões consultadas. Os argumentos e sua aplicação religiosa são expostos com as premissas correspondentes.",
+    ],
+  },
   legacy(
     "atanasio",
     "Santo Atanásio",
@@ -326,6 +339,47 @@ export const EXISTING_REFERENCES: readonly BibliographicReference[] = [
 ];
 /** Additional consulted sources, separate from the ten original inventory entries. */
 export const STUDY_REFERENCES: readonly BibliographicReference[] = [
+  {
+    id: "agostinho-trindade",
+    autor: "Santo Agostinho; tradução e introdução de Frei Agustino Belmonte, O.A.R.",
+    titulo: "A Trindade — referência de consulta",
+    idioma: "Português",
+    categoria: "patristica",
+    cobertura:
+      "Anexo de 472 páginas com livros I–XV e materiais editoriais. Consultados X, 10, 14 e XII, 15, 24 para as aulas de dúvida e iluminação; consulta parcial, sem revisão integral.",
+    statusDisponibilidade: "referencia",
+    direitos:
+      "Tradução e edição Paulus, com revisão e notas de Ir. Nair de Assis Oliveira, C.S.A. Sem licença de redistribuição verificada; nenhuma página, PDF ou tradução é disponibilizada.",
+    modulos: ["Patrística", "Formação Fundamental", "Disputatio"],
+    verificacao: "parcial",
+    origemVerificacao: "anexo-inspecao-parcial",
+    notasDeVerificacao: [
+      "Conferidos créditos de tradução, revisão e editora. A CIP registra 1994; o colofão digital informa ©2014 e eISBN 9788534938815. São dados editoriais distintos, sem número de edição confirmado.",
+      "X, 10, 14 trata de vida e operações da mente presentes na dúvida. XII, 15, 24 discute rememoração e aptidão criada para o inteligível, distinguindo conhecimentos adquiridos por experiência, testemunho e estudo.",
+      "Notas interpretativas modernas e o texto de Agostinho foram distinguidos. A consulta não fornece uma revisão integral das discussões agostinianas sobre alma e conhecimento.",
+    ],
+    papelCurricular: "fundamental",
+  },
+  {
+    id: "descartes-metodo",
+    autor: "René Descartes; tradução inglesa de John Veitch",
+    titulo: "Discurso do método — fonte de comparação",
+    idioma: "Obra original em francês; consulta em inglês",
+    categoria: "filosofia",
+    cobertura:
+      "Consulta parcial do início da parte IV, sobre dúvida, cogito e seus primeiros desdobramentos, na tradução de John Veitch, Gutenberg 59. Texto integral não incorporado.",
+    statusDisponibilidade: "referencia",
+    direitos:
+      "Fonte de consulta identificada; a comparação da aula é autoral. Não se redistribui a tradução ou um arquivo integral nesta biblioteca.",
+    modulos: ["Comparação histórica", "Patrística", "Disputatio"],
+    verificacao: "parcial",
+    origemVerificacao: "fonte-publica-consulta-parcial",
+    notasDeVerificacao: [
+      "Conferidos título e crédito de John Veitch no Gutenberg 59; consultada a passagem da parte IV usada para comparar o papel dos argumentos de existência.",
+      "A comparação não identifica os projetos de Agostinho e Descartes, nem apresenta sua semelhança como prova de influência direta ou de todas as teses cartesianas.",
+    ],
+    papelCurricular: "complementar",
+  },
   {
     id: "aristoteles-fisica",
     autor: "Aristóteles; tradução e notas de Guillermo R. de Echandía",
