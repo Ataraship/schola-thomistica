@@ -19,7 +19,11 @@ export type BibliographicReference = {
   direitos: string;
   modulos: readonly string[];
   verificacao: "parcial";
-  origemVerificacao: "anexo-inspecao-parcial" | "inventario" | "bibliografia-existente";
+  origemVerificacao:
+    | "anexo-inspecao-parcial"
+    | "fonte-publica-consulta-parcial"
+    | "inventario"
+    | "bibliografia-existente";
   notasDeVerificacao: readonly string[];
   papelCurricular: "fundamental" | "opcional" | "complementar";
 };
@@ -273,12 +277,22 @@ export const EXISTING_REFERENCES: readonly BibliographicReference[] = [
     "Órganon (Categorias, Analíticos)",
     "Lógica e demonstração.",
   ),
-  legacy(
-    "aristoteles-metafisica",
-    "Aristóteles",
-    "Metafísica",
-    "Ente enquanto ente, substância, ato e potência.",
-  ),
+  {
+    ...legacy(
+      "aristoteles-metafisica",
+      "Aristóteles",
+      "Metafísica",
+      "Ente, substância, ato e potência.",
+    ),
+    idioma: "Grego; consulta parcial da tradução inglesa de Hugh Tredennick",
+    cobertura:
+      "Referência à obra; para a aula de ato e potência, consultados Θ (IX), capítulos 1, 3 e 6. Não houve leitura integral nem integração do texto ao aplicativo.",
+    origemVerificacao: "fonte-publica-consulta-parcial",
+    notasDeVerificacao: [
+      "Conferidos os capítulos Θ, 1, 3 e 6 na edição de Hugh Tredennick (1933–1935), corpus Perseus. A exposição e os exemplos da aula são autorais.",
+      "O anexo ANGAML-3 reúne livros I–III e não foi usado como se contivesse Θ (IX). A consulta deste último foi feita na fonte pública identificada, sem reproduzir a tradução.",
+    ],
+  },
   legacy(
     "agostinho",
     "Santo Agostinho",
@@ -310,8 +324,29 @@ export const EXISTING_REFERENCES: readonly BibliographicReference[] = [
   ),
   legacy("de-ente", "São Tomás de Aquino", "De ente et essentia", "Ente, essência e existência."),
 ];
-/** Additional reference actually consulted for the Plato lessons; not one of the ten inventory entries. */
+/** Additional consulted sources, separate from the ten original inventory entries. */
 export const STUDY_REFERENCES: readonly BibliographicReference[] = [
+  {
+    id: "aristoteles-fisica",
+    autor: "Aristóteles; tradução e notas de Guillermo R. de Echandía",
+    titulo: "Física — referência de consulta em espanhol",
+    idioma: "Espanhol",
+    categoria: "filosofia",
+    cobertura:
+      "Anexo de 321 páginas que apresenta os livros I–VIII, com notas. Para estas aulas foram consultados I, 7–8; II, 1, 3, 8–9; e III, 1. Consulta parcial, sem revisão integral do arquivo.",
+    statusDisponibilidade: "referencia",
+    direitos:
+      "Tradução moderna: a folha inicial indica Gredos (1995)/Planeta De Agostini. Sem licença de redistribuição verificada; não se disponibiliza o PDF nem se reproduzem suas páginas ou tradução.",
+    modulos: ["Aristóteles", "Metafísica", "Formação Fundamental", "Disputatio"],
+    verificacao: "parcial",
+    origemVerificacao: "anexo-inspecao-parcial",
+    notasDeVerificacao: [
+      "Conferidos título, crédito de tradução e notas e editoras na folha inicial. O arquivo é espanhol, apesar de o nome enviado não indicar o idioma.",
+      "Sumário, início em I, 1 e término em VIII, 10 conferidos para identificar a cobertura. Isso não equivale a leitura integral ou revisão editorial da tradução.",
+      "Consulta das passagens necessárias às aulas, distinguindo texto de Aristóteles e notas modernas. As lições e os quadros são autorais.",
+    ],
+    papelCurricular: "fundamental",
+  },
   {
     id: "platao-menon",
     autor: "Platão; tradução de Maura Iglésias",
