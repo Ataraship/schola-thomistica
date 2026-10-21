@@ -121,7 +121,7 @@ export const NEW_REFERENCES: readonly BibliographicReference[] = [
     origemVerificacao: "inventario",
     papelCurricular: "opcional",
     notasDeVerificacao: [
-      "A ficha do Teil 3 vem do plano do acervo; seu PDF correspondente não foi identificado entre os anexos legíveis desta sessão.",
+      "O PDF do Teil 3 foi fornecido pelo responsável, porém não ficou acessível diretamente nesta etapa pelo limite de transferência de 32 MiB. Edição e cobertura seguem somente o inventário em docs/codex/acervo-e-plano-2026-10-20.md; não se afirma consulta direta ao volume.",
       "Os anexos denominados Aufbaukurs Teil 1 e ddce9614d92dbe45 têm 180 páginas e identificam Teil 1; não foram confundidos com este Teil 3.",
       "Não se atribui equivalência CEFR exata ao volume sem avaliação curricular.",
     ],
@@ -141,7 +141,7 @@ export const NEW_REFERENCES: readonly BibliographicReference[] = [
     origemVerificacao: "inventario",
     papelCurricular: "opcional",
     notasDeVerificacao: [
-      "O anexo enviado excede o limite de transferência de 32 MiB e não foi aberto. Cobertura e atribuição seguem exclusivamente o inventário.",
+      "O PDF foi fornecido pelo responsável, porém não ficou acessível diretamente nesta etapa pelo limite de transferência de 32 MiB. Cobertura e atribuição seguem exclusivamente o inventário em docs/codex/acervo-e-plano-2026-10-20.md; não se afirma consulta direta ao guia.",
       "Os exemplos situacionais do aplicativo são originais, sem alegação de transcrição desta fonte.",
     ],
   },

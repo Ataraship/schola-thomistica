@@ -40,9 +40,12 @@ describe("issue 1: bibliographic integrity", () => {
     expect(screen.queryByRole("link")).not.toBeInTheDocument();
     expect(screen.getByText(/Catalogada · referência bibliográfica/)).toBeInTheDocument();
   });
-  it("keeps the unmatched Teil 1 distinct from the planned intermediate Teil 3", () => {
+  it("distinguishes the supplied but inaccessible Teil 3 from the consulted Teil 1", () => {
     const source = NEW_REFERENCES.find((item) => item.id === "REF-2026-05")!;
     expect(source.titulo).toContain("Teil 3");
+    expect(source.origemVerificacao).toBe("inventario");
+    expect(source.notasDeVerificacao.join(" ")).toContain("foi fornecido pelo responsável");
+    expect(source.notasDeVerificacao.join(" ")).toContain("limite de transferência de 32 MiB");
     expect(source.notasDeVerificacao.join(" ")).toContain("180 páginas");
     expect(GERMAN_PATHS.find((path) => path.id === "inicial")!.references).not.toContain(source.id);
     expect(GERMAN_PATHS.find((path) => path.id === "intermediario")!.references).toContain(
@@ -50,6 +53,10 @@ describe("issue 1: bibliographic integrity", () => {
     );
     expect(GERMAN_PATHS.find((path) => path.id === "gotico")!.optional).toBe(true);
     expect(GERMAN_PATHS.find((path) => path.id === "gotico")!.references).toEqual(["REF-2026-07"]);
+    const guide = NEW_REFERENCES.find((item) => item.id === "REF-2026-06")!;
+    expect(guide.origemVerificacao).toBe("inventario");
+    expect(guide.notasDeVerificacao.join(" ")).toContain("foi fornecido pelo responsável");
+    expect(guide.notasDeVerificacao.join(" ")).toContain("não se afirma consulta direta");
   });
 });
 

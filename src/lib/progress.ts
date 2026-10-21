@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
+import { writeWithStorageLock } from "@/lib/storage-lock";
 
 export const PROGRESS_KEY = "schola-progress-v1";
 const CHANGED = "schola-progress-changed";
@@ -18,6 +19,7 @@ const WRITE_ERROR =
 const READ_ERROR = "Não foi possível ler o progresso salvo. Os dados existentes foram preservados.";
 let pending: Mutation[] = [];
 let lastKnown: Progress = empty;
+let writeFailed = false;
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return !!value && typeof value === "object" && !Array.isArray(value);
@@ -80,7 +82,7 @@ function read(): Snapshot {
   const stored = readStored();
   return {
     progress: applyPending(stored.progress),
-    storageError: pending.length ? WRITE_ERROR : stored.storageError,
+    storageError: pending.length && writeFailed ? WRITE_ERROR : stored.storageError,
   };
 }
 
@@ -92,11 +94,18 @@ export function useProgress() {
     const stored = (event: StorageEvent) => {
       if (event.key === PROGRESS_KEY || event.key === null) setSnapshot(read());
     };
+    const leaving = (event: BeforeUnloadEvent) => {
+      if (!pending.length) return;
+      event.preventDefault();
+      event.returnValue = "";
+    };
     window.addEventListener(CHANGED, changed);
     window.addEventListener("storage", stored);
+    window.addEventListener("beforeunload", leaving);
     return () => {
       window.removeEventListener(CHANGED, changed);
       window.removeEventListener("storage", stored);
+      window.removeEventListener("beforeunload", leaving);
     };
   }, []);
 
@@ -109,23 +118,42 @@ export function useProgress() {
         (item.kind !== "last" && mutation.kind !== "last" && item.id !== mutation.id),
     );
     pending.push(mutation);
-    const stored = readStored();
-    const next = applyPending(stored.progress);
-    let storageError: string | null = null;
-    try {
-      if (stored.raw === undefined) throw new Error("Cannot preserve unread storage");
-      // Never replace an unreadable document without preserving its exact bytes.
-      if (stored.storageError && stored.raw !== null)
-        localStorage.setItem(`${PROGRESS_KEY}-recovery-${Date.now()}`, stored.raw);
-      localStorage.setItem(PROGRESS_KEY, JSON.stringify(next));
-      pending = [];
-      lastKnown = next;
-    } catch {
-      storageError = WRITE_ERROR;
-    }
-    const result = { progress: next, storageError };
-    setSnapshot(result);
-    window.dispatchEvent(new CustomEvent(CHANGED, { detail: result }));
+    const publish = (result: Snapshot) => {
+      setSnapshot(result);
+      window.dispatchEvent(new CustomEvent(CHANGED, { detail: result }));
+    };
+    // Editing remains immediate while a different tab holds the asynchronous lock.
+    publish(read());
+    writeWithStorageLock(
+      PROGRESS_KEY,
+      () => {
+        // Earlier callbacks may already have flushed all current mutations.
+        if (!pending.length) return;
+        // Read after acquiring the lock, never before waiting for another writer.
+        const stored = readStored();
+        const next = applyPending(stored.progress);
+        let storageError: string | null = null;
+        try {
+          if (stored.raw === undefined) throw new Error("Cannot preserve unread storage");
+          // Never replace an unreadable document without preserving its exact bytes.
+          if (stored.storageError && stored.raw !== null)
+            localStorage.setItem(`${PROGRESS_KEY}-recovery-${Date.now()}`, stored.raw);
+          localStorage.setItem(PROGRESS_KEY, JSON.stringify(next));
+          pending = [];
+          lastKnown = next;
+          writeFailed = false;
+        } catch {
+          writeFailed = true;
+          storageError = WRITE_ERROR;
+        }
+        publish({ progress: next, storageError });
+      },
+      () => {
+        if (!pending.length) return;
+        writeFailed = true;
+        publish({ ...read(), storageError: WRITE_ERROR });
+      },
+    );
   }, []);
 
   const toggle = useCallback(
