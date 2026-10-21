@@ -2,11 +2,14 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { PageTitle } from "@/components/AppShell";
 import { VoxReader } from "@/components/VoxReader";
+import { BIBLIOGRAPHY } from "@/data/bibliography";
 import { TRACKS, type Lesson } from "@/data/curriculum";
+import { parseFormationSearch } from "@/lib/formation-navigation";
 import { useProgress } from "@/lib/progress";
 import { meta } from "@/lib/meta";
 
 export const Route = createFileRoute("/formacao")({
+  validateSearch: parseFormationSearch,
   head: () =>
     meta(
       "Formação Fundamental",
@@ -16,19 +19,18 @@ export const Route = createFileRoute("/formacao")({
 });
 
 function Formacao() {
-  const [trackId, setTrackId] = useState("logica");
-  const track = TRACKS.find((item) => item.id === trackId)!;
-  const [lessonId, setLessonId] = useState("log-1");
-  const lesson = track.lessons.find((item) => item.id === lessonId) ?? track.lessons[0]!;
+  const search = Route.useSearch();
+  const navigate = Route.useNavigate();
+  const track = TRACKS.find((item) => item.id === search.track) ?? TRACKS[0]!;
+  const lesson = track.lessons.find((item) => item.id === search.lesson) ?? track.lessons[0]!;
   const { progress, setLast } = useProgress();
   const prereq = TRACKS.find((item) => item.id === track.prereq);
   useEffect(() => {
-    setLast("/formacao", `${track.title}: ${lesson.title}`);
-  }, [track.title, lesson.title, setLast]);
+    setLast(`/formacao?track=${track.id}&lesson=${lesson.id}`, `${track.title}: ${lesson.title}`);
+  }, [track.id, track.title, lesson.id, lesson.title, setLast]);
   function chooseTrack(id: string) {
     const target = TRACKS.find((item) => item.id === id)!;
-    setTrackId(id);
-    setLessonId(target.lessons[0]!.id);
+    void navigate({ search: { track: target.id, lesson: target.lessons[0]!.id } });
   }
   return (
     <div>
@@ -65,7 +67,7 @@ function Formacao() {
           <button
             key={item.id}
             aria-pressed={item.id === lesson.id}
-            onClick={() => setLessonId(item.id)}
+            onClick={() => void navigate({ search: { track: track.id, lesson: item.id } })}
             className={`text-sm rounded-md border px-3 py-2 ${item.id === lesson.id ? "border-primary text-primary" : ""}`}
           >
             {progress.completed.includes(item.id) ? "✓ " : ""}
@@ -107,6 +109,48 @@ export function LessonWorkshop({ lesson }: { lesson: Lesson }) {
           <p className="mt-2">{section.text}</p>
         </section>
       ))}
+      {study?.comparison && (
+        <>
+          <figure className="mt-5 rounded-md border">
+            <figcaption id={`comparison-${lesson.id}`} className="font-display text-xl p-4">
+              {study.comparison.caption}
+            </figcaption>
+            <div
+              role="region"
+              aria-labelledby={`comparison-${lesson.id}`}
+              tabIndex={0}
+              className="overflow-x-auto"
+            >
+              <table
+                aria-labelledby={`comparison-${lesson.id}`}
+                className="w-full min-w-[32rem] text-sm text-left"
+              >
+                <thead className="bg-muted">
+                  <tr>
+                    {study.comparison.columns.map((column) => (
+                      <th scope="col" key={column} className="p-3">
+                        {column}
+                      </th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {study.comparison.rows.map((row) => (
+                    <tr key={row[0]} className="border-t align-top">
+                      <th scope="row" className="p-3 font-semibold">
+                        {row[0]}
+                      </th>
+                      <td className="p-3">{row[1]}</td>
+                      <td className="p-3">{row[2]}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </figure>
+          <p className="mt-2 text-sm text-muted-foreground">{study.comparison.note}</p>
+        </>
+      )}
       <VoxReader text={`${lesson.title}. ${lesson.body}`} />
       <div className="gold-rule my-5" />
       <h3 className="text-2xl">Exercitium · exponha suas razões</h3>
@@ -208,9 +252,18 @@ export function LessonWorkshop({ lesson }: { lesson: Lesson }) {
             ))}
           </fieldset>
           <p className="text-sm text-muted-foreground mt-4">{study.source}</p>
-          <a href="/biblioteca#REF-2026-01" className="text-primary underline text-sm">
-            Consultar a ficha da referência de lógica
-          </a>
+          {!!study.referenceIds.length && (
+            <nav aria-label="Referências da aula" className="mt-2 flex flex-col items-start gap-2">
+              {study.referenceIds.map((id) => {
+                const reference = BIBLIOGRAPHY.find((item) => item.id === id);
+                return reference ? (
+                  <a key={id} href={`/biblioteca#${id}`} className="text-primary underline text-sm">
+                    Consultar ficha: {reference.titulo}
+                  </a>
+                ) : null;
+              })}
+            </nav>
+          )}
           {study.practice && (
             <a href={study.practice.href} className="btn btn-ghost block mt-4 w-fit">
               {study.practice.label}

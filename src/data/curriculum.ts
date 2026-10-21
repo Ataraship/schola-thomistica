@@ -1,3 +1,5 @@
+import { PLATO_LESSONS } from "@/data/plato";
+
 export type LessonStudy = {
   objective: string;
   sections: { title: string; text: string }[];
@@ -5,6 +7,13 @@ export type LessonStudy = {
   criteria: string[];
   reflection: string;
   source: string;
+  referenceIds: string[];
+  comparison?: {
+    caption: string;
+    columns: [string, string, string];
+    rows: [string, string, string][];
+    note: string;
+  };
   practice?: { href: string; label: string };
 };
 export type Lesson = {
@@ -82,6 +91,7 @@ export const TRACKS: Track[] = [
           ],
           reflection:
             "Releia sua primeira resposta. Você examinou as razões ou apenas reconheceu uma conclusão familiar? Registre a diferença e uma pergunta que pretende resolver nas próximas unidades.",
+          referenceIds: ["REF-2026-01"],
           source:
             "Exposição e exemplos autorais. Orientação clássica: Aristóteles, Categorias, capítulo 2; Primeiros Analíticos I, 1. Não é transcrição de Lógica e Dialética nem de seu PDF, indisponível neste repositório.",
         },
@@ -126,6 +136,7 @@ export const TRACKS: Track[] = [
           ],
           reflection:
             "Compare sua negação com ‘nenhuma decisão popular é justa’. Explique por que as duas frases não são equivalentes e indique que evidência seria necessária para a afirmação mais forte.",
+          referenceIds: ["REF-2026-01"],
           source:
             "Exposição e exemplos autorais. Referência clássica para proposição, afirmação e negação: Aristóteles, Da interpretação, capítulos 4–7. Sem transcrição de traduções modernas.",
         },
@@ -171,6 +182,7 @@ export const TRACKS: Track[] = [
           ],
           reflection:
             "Compare a definição revisada com a inicial. Qual contraexemplo levou a cada mudança? Se alguém discordar do contexto escolhido, diga que parte da discussão é terminológica e que parte diz respeito ao objeto.",
+          referenceIds: ["REF-2026-01"],
           source:
             "Exposição e exemplos autorais. Orientação clássica: Aristóteles, Tópicos VI, 1, sobre o exame de definições. Os exemplos não foram extraídos de PDFs privados.",
         },
@@ -212,6 +224,7 @@ export const TRACKS: Track[] = [
           ],
           reflection:
             "Retome seu argumento sobre a virtude. Escreva a objeção mais forte a uma de suas premissas; depois diga se precisa corrigi-la ou defendê-la por uma razão adicional.",
+          referenceIds: ["REF-2026-01"],
           source:
             "Exposição e exemplos autorais. Orientação clássica: Aristóteles, Primeiros Analíticos I, 1 e 4. Não se atribuem estes exemplos ao texto de Mário Ferreira dos Santos.",
         },
@@ -270,6 +283,7 @@ export const TRACKS: Track[] = [
           ],
           reflection:
             "Construa um novo argumento válido com uma premissa falsa e outro inválido com premissas verdadeiras. Troque os conteúdos dos exemplos da aula, conserve as formas e explique por que as classificações permanecem. Revise sua resposta inicial de log-1 à luz do que aprendeu.",
+          referenceIds: ["REF-2026-01"],
           source:
             "Exposição, exemplos e critérios autorais. Orientação clássica: Aristóteles, Primeiros Analíticos I, 1 e 4; Segundos Analíticos I, 2, sobre as exigências da demonstração. A distinção é ensinada aqui sem reproduzir traduções modernas.",
         },
@@ -336,6 +350,7 @@ export const TRACKS: Track[] = [
           ],
           reflection:
             "Escolha uma afirmação com a qual concorda e formule uma defesa ruim dela. Diagnostique o defeito, depois ofereça uma razão melhor ou declare o que ainda precisa investigar. Escreva a objeção que seu argumento revisado ainda deve enfrentar.",
+          referenceIds: ["REF-2026-01"],
           source:
             "Exposição, nomenclatura pedagógica e exemplos autorais. Consulta parcial: Aristóteles, Refutações sofísticas, capítulos 1 e 4, na compilação alemã Organon enviada pelo responsável, sobre refutações aparentes e equívocos da linguagem. Não se atribui a Aristóteles toda a terminologia atual desta aula nem se reproduz a tradução.",
           practice: {
@@ -390,6 +405,7 @@ export const TRACKS: Track[] = [
           ],
           reflection:
             "Releia sua tese inicial sem apagá-la. Na revisão, registre o que mudou e qual objeção produziu essa mudança; se a manteve, apresente a razão adicional que respondeu à dificuldade. Transfira a estrutura para uma questão de sua escolha na Disputatio, sem confundir acompanhar etapas com demonstrar a conclusão.",
+          referenceIds: ["REF-2026-01"],
           source:
             "Exposição e caso autorais. Consulta parcial: Aristóteles, Tópicos I, 1–2, texto grego da edição Bekker (1837), no corpus First1KGreek. O roteiro de conceder, negar e distinguir é uma adaptação pedagógica da prática escolástica, não uma citação desses capítulos.",
           practice: {
@@ -405,17 +421,9 @@ export const TRACKS: Track[] = [
     title: "Platão",
     latin: "Plato",
     prereq: "logica",
-    summary: "As Formas, a alma e o diálogo socrático, lidos nos próprios termos de Platão.",
-    lessons: [
-      {
-        id: "pla-1",
-        title: "Opinião e conhecimento",
-        concepts: ["Doxa", "Episteme", "Linha dividida"],
-        body: "Na República, Platão distingue a opinião, que versa sobre o sensível e mutável, do conhecimento, que versa sobre o inteligível e imutável. As Formas são, para Platão, realidades separadas, das quais as coisas sensíveis participam. Leia Platão primeiro como Platão: a separação das Formas é tese dele, não uma metáfora. Só depois compare: São Tomás, seguindo Aristóteles, não admite Formas subsistentes separadas das coisas materiais, mas situa as razões exemplares no intelecto divino.",
-        exercise:
-          "Formule com suas palavras por que Platão julga que o sensível não pode ser objeto de ciência. Depois, escreva uma objeção aristotélica.",
-      },
-    ],
+    summary:
+      "Opinião, conhecimento e investigação: ler a República e o Mênon antes de comparar escolas.",
+    lessons: PLATO_LESSONS,
   },
   {
     id: "aristoteles",
