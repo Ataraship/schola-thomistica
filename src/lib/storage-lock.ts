@@ -16,3 +16,14 @@ export function writeWithStorageLock(key: string, write: () => void, failed: () 
     failed();
   }
 }
+
+/** Keep the warning alive across SPA unmounts until the owning store saves. */
+export function guardPendingStorage(hasPending: () => boolean): () => void {
+  const leaving = (event: BeforeUnloadEvent) => {
+    if (!hasPending()) return;
+    event.preventDefault();
+    event.returnValue = "";
+  };
+  window.addEventListener("beforeunload", leaving);
+  return () => window.removeEventListener("beforeunload", leaving);
+}

@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { writeWithStorageLock } from "@/lib/storage-lock";
+import { guardPendingStorage, writeWithStorageLock } from "@/lib/storage-lock";
 
 export const PROGRESS_KEY = "schola-progress-v1";
 const CHANGED = "schola-progress-changed";
@@ -20,6 +20,7 @@ const READ_ERROR = "Não foi possível ler o progresso salvo. Os dados existente
 let pending: Mutation[] = [];
 let lastKnown: Progress = empty;
 let writeFailed = false;
+let releaseGuard: (() => void) | undefined;
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return !!value && typeof value === "object" && !Array.isArray(value);
@@ -94,18 +95,11 @@ export function useProgress() {
     const stored = (event: StorageEvent) => {
       if (event.key === PROGRESS_KEY || event.key === null) setSnapshot(read());
     };
-    const leaving = (event: BeforeUnloadEvent) => {
-      if (!pending.length) return;
-      event.preventDefault();
-      event.returnValue = "";
-    };
     window.addEventListener(CHANGED, changed);
     window.addEventListener("storage", stored);
-    window.addEventListener("beforeunload", leaving);
     return () => {
       window.removeEventListener(CHANGED, changed);
       window.removeEventListener("storage", stored);
-      window.removeEventListener("beforeunload", leaving);
     };
   }, []);
 
@@ -118,6 +112,7 @@ export function useProgress() {
         (item.kind !== "last" && mutation.kind !== "last" && item.id !== mutation.id),
     );
     pending.push(mutation);
+    releaseGuard ??= guardPendingStorage(() => pending.length > 0);
     const publish = (result: Snapshot) => {
       setSnapshot(result);
       window.dispatchEvent(new CustomEvent(CHANGED, { detail: result }));
@@ -142,6 +137,8 @@ export function useProgress() {
           pending = [];
           lastKnown = next;
           writeFailed = false;
+          releaseGuard?.();
+          releaseGuard = undefined;
         } catch {
           writeFailed = true;
           storageError = WRITE_ERROR;
