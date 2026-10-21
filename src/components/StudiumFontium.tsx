@@ -6,7 +6,7 @@ export function StudiumFontium() {
   const completed = progress.completed.includes(IMAGES_STUDIUM.id);
 
   return (
-    <section id={IMAGES_STUDIUM.id} aria-labelledby="studium-title" className="mt-10">
+    <section id={IMAGES_STUDIUM.id} aria-labelledby="studium-title" className="mt-10 scroll-mt-20">
       <div className="gold-rule mb-6" />
       <p className="rubric">Studium Fontium · oficina de leitura</p>
       <h2 id="studium-title" className="text-3xl mt-2">
@@ -101,7 +101,7 @@ export function StudiumFontium() {
             </label>
             <textarea
               id={studiumNoteKey(stage.id)}
-              className="field mt-2 min-h-32"
+              className="field mt-2 min-h-32 scroll-mt-32"
               aria-describedby={`prompt-${stage.id}`}
               value={progress.notes[studiumNoteKey(stage.id)] ?? ""}
               onChange={(event) => setNote(studiumNoteKey(stage.id), event.target.value)}
