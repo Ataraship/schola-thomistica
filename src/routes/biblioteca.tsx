@@ -3,13 +3,14 @@ import { useState } from "react";
 import { PageTitle } from "@/components/AppShell";
 import { StudiumFontium } from "@/components/StudiumFontium";
 import { BIBLIOGRAPHY, type BibliographicReference } from "@/data/bibliography";
+import { STUDIUM_ACTIVITIES } from "@/data/studium";
 import { meta } from "@/lib/meta";
 
 export const Route = createFileRoute("/biblioteca")({
   head: () =>
     meta(
       "Biblioteca",
-      "Fontes catalogadas com cobertura, direitos e verificação explícitos; atividade original de Studium Fontium.",
+      "Fontes catalogadas com cobertura, direitos e verificação explícitos; oficinas autorais de Studium Fontium.",
     ),
   component: Biblioteca,
 });
@@ -84,9 +85,13 @@ export function Biblioteca() {
         Conhecer uma referência não significa ter seu texto integral no aplicativo. As dez novas
         obras estão catalogadas, com limites de cobertura e consulta explícitos.
       </PageTitle>
-      <a href="#studium-imagens" className="btn btn-ghost mb-5">
-        Ir à oficina Studium Fontium
-      </a>
+      <nav aria-label="Oficinas Studium Fontium" className="flex flex-wrap gap-2 mb-5">
+        {STUDIUM_ACTIVITIES.map((activity) => (
+          <a key={activity.id} href={`#${activity.id}`} className="btn btn-ghost">
+            {activity.title}
+          </a>
+        ))}
+      </nav>
       <label htmlFor="reference-search" className="block text-sm">
         Buscar autor, obra ou código da referência
       </label>
@@ -106,7 +111,9 @@ export function Biblioteca() {
         ))}
       </ul>
       {!sources.length && <p>Nenhuma referência encontrada. Tente outro título ou autor.</p>}
-      <StudiumFontium />
+      {STUDIUM_ACTIVITIES.map((activity) => (
+        <StudiumFontium key={activity.id} activity={activity} />
+      ))}
     </div>
   );
 }
