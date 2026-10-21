@@ -211,6 +211,11 @@ export function LessonWorkshop({ lesson }: { lesson: Lesson }) {
           <a href="/biblioteca#REF-2026-01" className="text-primary underline text-sm">
             Consultar a ficha da referência de lógica
           </a>
+          {study.practice && (
+            <a href={study.practice.href} className="btn btn-ghost block mt-4 w-fit">
+              {study.practice.label}
+            </a>
+          )}
         </>
       )}
       <button type="button" className="btn btn-green mt-5 block" onClick={() => toggle(lesson.id)}>
