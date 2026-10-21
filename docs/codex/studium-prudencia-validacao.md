@@ -8,9 +8,9 @@ A oficina de prudência contém exposição original em português, vocabulário
 
 Consulta parcial efetiva ao anexo privado `thomaskommentar_ethik2.pdf`, de 378 páginas, traduzido por Josef Spindelböck, **Teil 2, livros VI–X**:
 
-- Aristóteles, *Ética a Nicômaco* VI.3–7, 1139b14–1141b22: disposições intelectuais, produção e ação, prudência, princípios e sabedoria.
+- Aristóteles, _Ética a Nicômaco_ VI.3–7, 1139b14–1141b22: disposições intelectuais, produção e ação, prudência, princípios e sabedoria.
 - Aristóteles, VI.12–13, 1143b18–1145a11: habilidade, fins e vínculo entre prudência e virtude moral.
-- Tomás, *Sententia libri Ethicorum* VI, lições 3–4, §§1142–1174, e 10–11, §§1257–1291, conforme a numeração apresentada na edição: comentário às passagens correspondentes.
+- Tomás, _Sententia libri Ethicorum_ VI, lições 3–4, §§1142–1174, e 10–11, §§1257–1291, conforme a numeração apresentada na edição: comentário às passagens correspondentes.
 
 Esses localizadores são da obra e da numeração editorial, não páginas inventadas do PDF. Texto de Aristóteles, comentário de Tomás e elaboração pedagógica são distinguidos. A ficha `REF-2026-02` registra a ampliação da consulta, mantendo a verificação parcial. Nenhum trecho da tradução moderna ou anexo privado integra a entrega.
 
