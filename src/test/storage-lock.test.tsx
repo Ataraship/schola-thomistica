@@ -29,6 +29,24 @@ function controlledLocks() {
 }
 
 describe("serialized storage writes", () => {
+  it("keeps the pending-write warning after SPA unmount and releases it when storage saves", async () => {
+    localStorage.clear();
+    const locks = controlledLocks();
+    const mounted = renderHook(useProgress);
+    act(() => mounted.result.current.setNote("log-1", "Texto antes da navegação"));
+    mounted.unmount();
+    const pending = new Event("beforeunload", { cancelable: true });
+    window.dispatchEvent(pending);
+    expect(pending.defaultPrevented).toBe(true);
+    await act(async () => locks.release());
+    expect(JSON.parse(localStorage.getItem(PROGRESS_KEY)!).notes["log-1"]).toBe(
+      "Texto antes da navegação",
+    );
+    const saved = new Event("beforeunload", { cancelable: true });
+    window.dispatchEvent(saved);
+    expect(saved.defaultPrevented).toBe(false);
+  });
+
   it("warns before leaving while a write waits for the lock and stops warning after it saves", async () => {
     localStorage.clear();
     const locks = controlledLocks();
