@@ -2,6 +2,8 @@
 
 Os documentos `schola-progress-v1` e `schola-disputatio-v1` continuam no localStorage, com os mesmos IDs de aulas, respostas, conclusão e campos desconhecidos. Não há serviço, login ou sincronização entre dispositivos.
 
+Na cadeia revisada, o protocolo de campos do progresso começa no PR #2. A Disputatio o recebe a partir do PR #4; nas branches dos PRs #2 e #3, seu editor mantém a implementação anterior.
+
 ## Duas abas e documentos desatualizados
 
 A revisão reproduziu perda de campos diferentes em escritas simultâneas. Web Locks serializa as operações de abas cooperantes, mas não garante que o cache de localStorage de um processo Chromium já tenha recebido a alteração do outro. Uma leitura dentro da trava ainda podia devolver um documento antigo.
