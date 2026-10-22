@@ -27,3 +27,9 @@ Os IDs e respostas das lições antigas, as oficinas e `schola-progress-v1` perm
 - Safari real de iPhone e WebKit não estão disponíveis neste ambiente. Essa verificação continua pendente antes de publicar.
 
 A integração VoiceStudio e o mecanismo geral de progresso não foram alterados. Nenhum anexo privado foi incluído no repositório. Entrega em PR para revisão, dependente dos PRs #2 e #3; sem deploy ou integração em `main`.
+
+## Preparação técnica de 22/10/2026
+
+A auditoria do head `8cbb383` reproduziu perda de uma cópia de recuperação quando duas corrupções distintas eram recuperadas no mesmo timestamp. A Disputatio agora acrescenta uma identidade aleatória de 128 bits ao prefixo legado de recuperação. Não substitui uma chave já ocupada; se a geração da identidade, a leitura ou a gravação falhar, conserva a raiz danificada e os textos pendentes com aviso. As chaves v1, os campos auxiliares, os cinco campos antigos, o juízo revisto e as cópias de recuperação anteriores permanecem.
+
+Cinco novos testes cobrem timestamps repetidos, identidade ocupada, leitura negada, quota na cópia e indisponibilidade de aleatoriedade, incluindo a retomada posterior dos textos pendentes. O caso de timestamps repetidos falhou no código anterior e passou após a correção. O relatório externo desta preparação registra os gates e navegadores efetivamente executados no SHA final; os números e limitações da seção anterior são históricos. Safari real no iPhone e conferência visual no editor Lovable continuam pendentes. A possível colisão nas recuperações do progresso geral é dívida herdada de `main`, fora desta correção da Disputatio. Os PRs #5–#7 não recebem esta correção nesta etapa e precisarão de reconciliação autorizada posteriormente.

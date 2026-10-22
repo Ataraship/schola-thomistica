@@ -114,6 +114,16 @@ function repairMirror() {
   }
 }
 
+/** Use a random identity: another tab may still see a stale localStorage cache. */
+function preserveRecovery(raw: string): void {
+  const token = Array.from(crypto.getRandomValues(new Uint32Array(4)), (part) =>
+    part.toString(16).padStart(8, "0"),
+  ).join("");
+  const key = `${DISPUTATIO_KEY}-recovery-${Date.now()}-${token}`;
+  if (localStorage.getItem(key) !== null) throw new Error("Recovery key already exists");
+  localStorage.setItem(key, raw);
+}
+
 /** Keep the original flat v1 mirror and pending text across SPA navigation. */
 export function useDisputatioDraft() {
   const [snapshot, setSnapshot] = useState<Snapshot>({ values: {}, storageError: null });
@@ -158,8 +168,7 @@ export function useDisputatioDraft() {
           if (stored.raw === undefined || !stored.fieldsReadable || stored.fieldsInvalid)
             throw new Error("Cannot preserve unread journal");
           // Preserve damaged legacy bytes before adding or mirroring new work.
-          if (stored.rootInvalid && stored.raw !== null)
-            localStorage.setItem(`${DISPUTATIO_KEY}-recovery-${Date.now()}`, stored.raw);
+          if (stored.rootInvalid && stored.raw !== null) preserveRecovery(stored.raw);
           for (const [field, text] of Object.entries(pending))
             writeStorageField(DISPUTATIO_KEY, field, text, validField);
           const committed = readDraft(known);
