@@ -70,8 +70,12 @@
 }
 
 @layer base {
-  * { border-color: var(--color-border); }
-  html { -webkit-text-size-adjust: 100%; }
+  * {
+    border-color: var(--color-border);
+  }
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
   body {
     background-color: var(--color-background);
     background-image: radial-gradient(ellipse at top, oklch(0.98 0.02 88), transparent 60%);
@@ -80,8 +84,24 @@
     font-size: 1.075rem;
     line-height: 1.6;
   }
-  h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 600; line-height: 1.15; }
-  :focus-visible { outline: 2px solid var(--color-ring); outline-offset: 2px; }
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    line-height: 1.15;
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-ring);
+    outline-offset: 2px;
+  }
+  #studium-imagens {
+    scroll-margin-top: 5rem;
+  }
+  textarea[id^="studium-"] {
+    scroll-margin-top: 8rem;
+  }
 }
 
 @utility folio {
@@ -118,23 +138,48 @@
   }
 }
 @utility btn {
-  display: inline-flex; align-items: center; justify-content: center; gap: 0.4rem;
-  min-height: 2.5rem; padding: 0.4rem 0.95rem; border-radius: var(--radius-md);
-  font-family: var(--font-display); font-weight: 700; letter-spacing: 0.03em;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  min-height: 2.5rem;
+  padding: 0.4rem 0.95rem;
+  border-radius: var(--radius-md);
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: 0.03em;
   border: 1px solid var(--color-primary);
-  background: var(--color-primary); color: var(--color-primary-foreground);
-  transition: filter .15s;
-  &:hover { filter: brightness(1.12); }
-  &:disabled { opacity: 0.45; cursor: not-allowed; filter: none; }
+  background: var(--color-primary);
+  color: var(--color-primary-foreground);
+  transition: filter 0.15s;
+  &:hover {
+    filter: brightness(1.12);
+  }
+  &:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+    filter: none;
+  }
 }
 @utility btn-ghost {
-  background: transparent; color: var(--color-primary);
-  &:hover { background: var(--color-muted); filter: none; }
+  background: transparent;
+  color: var(--color-primary);
+  &:hover {
+    background: var(--color-muted);
+    filter: none;
+  }
 }
 @utility btn-green {
-  background: var(--color-secondary); color: var(--color-secondary-foreground); border-color: var(--color-secondary);
+  background: var(--color-secondary);
+  color: var(--color-secondary-foreground);
+  border-color: var(--color-secondary);
 }
 @utility field {
-  width: 100%; background: var(--color-vellum); border: 1px solid var(--color-input);
-  border-radius: var(--radius-md); padding: 0.55rem 0.7rem; font-size: 1rem; color: var(--color-foreground);
+  width: 100%;
+  background: var(--color-vellum);
+  border: 1px solid var(--color-input);
+  border-radius: var(--radius-md);
+  padding: 0.55rem 0.7rem;
+  font-size: 1rem;
+  color: var(--color-foreground);
 }

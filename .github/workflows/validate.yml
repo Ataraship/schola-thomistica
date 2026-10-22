@@ -1,6 +1,8 @@
 name: Validate PR
 
 on:
+  push:
+    branches: ["feat/**"]
   pull_request:
     types: [opened, synchronize, reopened, ready_for_review]
 
@@ -8,7 +10,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: validate-pr-${{ github.event.pull_request.number }}
+  group: validate-${{ github.head_ref || github.ref_name }}
   cancel-in-progress: true
 
 jobs:
@@ -17,11 +19,11 @@ jobs:
     timeout-minutes: 20
     env:
       CI: true
-      BASE_SHA: ${{ github.event.pull_request.base.sha }}
+      BASE_SHA: ${{ github.event.pull_request.base.sha || '40fb9905e88e0db61e07d579b7bee2f2f1c8afd9' }}
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
-          ref: ${{ github.event.pull_request.head.sha }}
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
           fetch-depth: 0
           persist-credentials: false
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
