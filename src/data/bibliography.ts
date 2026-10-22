@@ -63,6 +63,7 @@ export const NEW_REFERENCES: readonly BibliographicReference[] = [
     papelCurricular: "fundamental",
     notasDeVerificacao: [
       "Conferidos título, tradutor, indicação Buch 6 bis 10 e início do sexto livro no anexo. Consulta parcial.",
+      "Para a oficina de prudência, consultados Ética VI.3–7 (1139b14–1141b22), VI.12–13 (1143b18–1145a11) e comentário VI, lições 3–4 (§§1142–1174) e 10–11 (§§1257–1291), na numeração da edição. Não equivale à leitura integral dos livros VI–X.",
       "Aristóteles e o comentário tomista são vozes distintas; não apresentar esta parte como comentário integral aos dez livros.",
     ],
   },
