@@ -163,7 +163,12 @@ export function useDisputatioDraft() {
           for (const [field, text] of Object.entries(pending))
             writeStorageField(DISPUTATIO_KEY, field, text, validField);
           const committed = readDraft(known);
-          if (committed.raw === undefined || !committed.fieldsReadable || committed.fieldsInvalid)
+          if (
+            committed.raw === undefined ||
+            !committed.fieldsReadable ||
+            committed.fieldsInvalid ||
+            (committed.rootInvalid && committed.raw !== stored.raw)
+          )
             throw new Error("Cannot reconcile unread journal");
           next = { ...committed.document, ...pending };
           if (!sameStoredJSON(committed.raw, next))
