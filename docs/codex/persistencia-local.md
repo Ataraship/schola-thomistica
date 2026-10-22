@@ -17,6 +17,7 @@ Para o mesmo campo editado simultaneamente, prevalece a última gravação efeti
 ## Falhas e recuperação
 
 - Leitura negada impede sobrescrita. Os registros malformados do documento principal só são substituídos após cópia dos bytes em uma chave de recuperação.
+- Na Disputatio, se novos bytes malformados surgirem entre a leitura inicial e a conferência após gravar um campo, a substituição do documento é interrompida. O texto pendente e o aviso de saída permanecem; uma nova edição tenta preservar esses bytes antes de reconciliar as respostas.
 - Quota, rejeição de trava e falha de gravação mantêm os textos pendentes editáveis e exibem aviso. Uma próxima edição retenta a gravação; pendências sobrevivem à navegação interna e remontagem da rota.
 - Um campo auxiliar inválido não é apagado nem substituído silenciosamente. A gravação é bloqueada e o texto pendente permanece na sessão. A recuperação exige inspeção e cópia dos dados antes de qualquer correção manual.
 - Se um campo auxiliar foi salvo antes de falhar a atualização do espelho, a próxima leitura ainda recupera esse campo.
