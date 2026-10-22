@@ -1,0 +1,766 @@
+{
+  "version": 1,
+  "referenceCommit": "87aea5912f41cdcf23c7e5fc9e373aebbc2e29f2",
+  "diagnostics": [
+    {
+      "file": "src/components/AppShell.tsx",
+      "rule": "prettier/prettier",
+      "severity": 2,
+      "message": "Replace `·key={n.to}·to={n.to}·onClick={()·=>·setOpen(false)}` with `⏎··········key={n.to}⏎··········to={n.to}⏎··········onClick={()·=>·setOpen(false)}⏎·········`",
+      "sourceLine": "        <Link key={n.to} to={n.to} onClick={() => setOpen(false)} activeOptions={{ exact: n.to === \"/\" }}",
+      "count": 1
+    },
+    {
+      "file": "src/components/AppShell.tsx",
+      "rule": "prettier/prettier",
+      "severity": 2,
+      "message": "Insert `⏎········`",
+      "sourceLine": "          className=\"rounded-md px-3 py-2 hover:bg-sidebar-accent data-[status=active]:bg-sidebar-accent data-[status=active]:border-l-2 data-[status=active]:border-gold\">",
+      "count": 1
+    },
+    {
+      "file": "src/components/AppShell.tsx",
+      "rule": "prettier/prettier",
+      "severity": 2,
+      "message": "Replace `·href=\"#conteudo\"·className=\"sr-only·focus:not-sr-only·focus:absolute·focus:p-2·focus:bg-card\">Ir·para·o·conteúdo` with `⏎········href=\"#conteudo\"⏎········className=\"sr-only·focus:not-sr-only·focus:absolute·focus:p-2·focus:bg-card\"⏎······>⏎········Ir·para·o·conteúdo⏎······`",
+      "sourceLine": "      <a href=\"#conteudo\" className=\"sr-only focus:not-sr-only focus:absolute focus:p-2 focus:bg-card\">Ir para o conteúdo</a>",
+      "count": 1
+    },
+    {
+      "file": "src/components/AppShell.tsx",
+      "rule": "prettier/prettier",
+      "severity": 2,
+      "message": "Replace `·aria-expanded={open}·aria-controls=\"menu-mobile\"·onClick={()·=>·setOpen(!open)}·className=\"rounded-md·border·border-sidebar-border·px-3·py-1·font-display\"` with `⏎··········aria-expanded={open}⏎··········aria-controls=\"menu-mobile\"⏎··········onClick={()·=>·setOpen(!open)}⏎··········className=\"rounded-md·border·border-sidebar-border·px-3·py-1·font-display\"⏎········`",
+      "sourceLine": "        <button aria-expanded={open} aria-controls=\"menu-mobile\" onClick={() => setOpen(!open)} className=\"rounded-md border border-sidebar-border px-3 py-1 font-display\">",
+      "count": 1
+    },
+    {
+      "file": "src/components/AppShell.tsx",
+      "rule": "prettier/prettier",
+      "severity": 2,
+      "message": "Replace `<div·id=\"menu-mobile\"·className=\"lg:hidden·fixed·inset-x-0·top-[58px]·z-20·bg-sidebar·text-sidebar-foreground·p-4·border-b-2·border-gold\">{nav}</div>` with `(⏎········<div⏎··········id=\"menu-mobile\"⏎··········className=\"lg:hidden·fixed·inset-x-0·top-[58px]·z-20·bg-sidebar·text-sidebar-foreground·p-4·border-b-2·border-gold\"⏎········>⏎··········{nav}⏎········</div>⏎······)`",
+      "sourceLine": "      {open && <div id=\"menu-mobile\" className=\"lg:hidden fixed inset-x-0 top-[58px] z-20 bg-sidebar text-sidebar-foreground p-4 border-b-2 border-gold\">{nav}</div>}",
+      "count": 1
+    },
+    {
+      "file": "src/components/AppShell.tsx",
+      "rule": "prettier/prettier",
+      "severity": 2,
+      "message": "Replace `{children}` with `⏎········{children}⏎······`",
+      "sourceLine": "      <main id=\"conteudo\" className=\"flex-1 px-4 py-8 sm:px-8 max-w-5xl mx-auto w-full\">{children}</main>",
+      "count": 1
+    },
+    {
+      "file": "src/components/AppShell.tsx",
+      "rule": "prettier/prettier",
+      "severity": 2,
+      "message": "Replace `·kicker,·title,·children·}:·{·kicker:·string;·title:·string;·children?:·ReactNode·` with `⏎··kicker,⏎··title,⏎··children,⏎}:·{⏎··kicker:·string;⏎··title:·string;⏎··children?:·ReactNode;⏎`",
+      "sourceLine": "export function PageTitle({ kicker, title, children }: { kicker: string; title: string; children?: ReactNode }) {",
+      "count": 1
+    },
+    {
+      "file": "src/components/VoxReader.tsx",
+      "rule": "prettier/prettier",
+      "severity": 2,
+      "message": "Replace `·text,·defaultLang·=·\"pt\",·langs·=·[\"pt\",·\"en\",·\"de\"]·}:·{·text:·string;·defaultLang?:·Lang;·langs?:·Lang[]·` with `⏎··text,⏎··defaultLang·=·\"pt\",⏎··langs·=·[\"pt\",·\"en\",·\"de\"],⏎}:·{⏎··text:·string;⏎··defaultLang?:·Lang;⏎··langs?:·Lang[];⏎`",
+      "sourceLine": "export function VoxReader({ text, defaultLang = \"pt\", langs = [\"pt\", \"en\", \"de\"] }: { text: string; defaultLang?: Lang; langs?: Lang[] }) {",
+      "count": 1
+    },
+    {
+      "file": "src/components/VoxReader.tsx",
+      "rule": "prettier/prettier",
+      "severity": 2,
+      "message": "Replace `()·=>·()·=>·{·if·(url)·URL.revokeObjectURL(url);·},·[url]` with `⏎····()·=>·()·=>·{⏎······if·(url)·URL.revokeObjectURL(url);⏎····},⏎····[url],⏎··`",
+      "sourceLine": "  useEffect(() => () => { if (url) URL.revokeObjectURL(url); }, [url]);",
+      "count": 1
+    },
+    {
+      "file": "src/components/VoxReader.tsx",
+      "rule": "prettier/prettier",
+      "severity": 2,
+      "message": "Replace `()·=>·()·=>·{·if·(typeof·window·!==·\"undefined\")·window.speechSynthesis?.cancel();·},·[]` with `⏎····()·=>·()·=>·{⏎······if·(typeof·window·!==·\"undefined\")·window.speechSynthesis?.cancel();⏎····},⏎····[],⏎··`",
+      "sourceLine": "  useEffect(() => () => { if (typeof window !== \"undefined\") window.speechSynthesis?.cancel(); }, []);",
+      "count": 1
+    },
+    {
+      "file": "src/components/VoxReader.tsx",
+      "rule": "prettier/prettier",
+      "severity": 2,
+      "message": "Insert `⏎···`",
+      "sourceLine": "    setBusy(true); setStatus(`Gerando trecho ${idx + 1}/${segments.length} com Vox Scholastica…`);",
+      "count": 1
+    },
+    {
+      "file": "src/components/VoxReader.tsx",
+      "rule": "prettier/prettier",
+      "severity": 2,
+      "message": "Replace `·method:·\"POST\",·headers:·{·\"content-type\":·\"application/json\"·},·body:·JSON.stringify({·text:·segments[idx],·language:·lang,·speed·})` with `⏎········method:·\"POST\",⏎········headers:·{·\"content-type\":·\"application/json\"·},⏎········body:·JSON.stringify({·text:·segments[idx],·language:·lang,·speed·}),⏎·····`",
+      "sourceLine": "      const res = await fetch(\"/api/tts\", { method: \"POST\", headers: { \"content-type\": \"application/json\" }, body: JSON.stringify({ text: segments[idx], language: lang, speed }) });",
+      "count": 1
+    },
+    {
+      "file": "src/components/VoxReader.tsx",
+      "rule": "prettier/prettier",
+      "severity": 2,
+      "message": "Insert `⏎·······`",
+      "sourceLine": "        setStatus(j.message); return;",
+      "count": 1
+    },
+    {
+      "file": "src/components/VoxReader.tsx",
+      "rule": "prettier/prettier",
+      "severity": 2,
+      "message": "Insert `⏎·····`",
+      "sourceLine": "      const u = URL.createObjectURL(blob); setUrl(u);",
+      "count": 1
+    },
+    {
+      "file": "src/components/VoxReader.tsx",
+      "rule": "prettier/prettier",
+      "severity": 2,
+      "message": "Replace `·setAiDown(true);·setStatus(\"Não·foi·possível·contactar·o·servidor.\");·}` with `⏎······setAiDown(true);⏎······setStatus(\"Não·foi·possível·contactar·o·servidor.\");`",
+      "sourceLine": "    } catch { setAiDown(true); setStatus(\"Não foi possível contactar o servidor.\"); }",
+      "count": 1
+    },
+    {
+      "file": "src/components/VoxReader.tsx",
+      "rule": "prettier/prettier",
+      "severity": 2,
+      "message": "Replace `finally·{·setBusy(false);` with `}·finally·{⏎······setBusy(false);⏎···`",
+      "sourceLine": "    finally { setBusy(false); }",
+      "count": 1
+    },
+    {
+      "file": "src/components/VoxReader.tsx",
+      "rule": "prettier/prettier",
+      "severity": 2,
+      "message": "Replace `·setStatus(\"Este·navegador·não·oferece·voz·do·aparelho.\");·return;` with `⏎······setStatus(\"Este·navegador·não·oferece·voz·do·aparelho.\");⏎······return;⏎···`",
+      "sourceLine": "    if (!s) { setStatus(\"Este navegador não oferece voz do aparelho.\"); return; }",
+      "count": 1
+    },
+    {
+      "file": "src/components/VoxReader.tsx",
+      "rule": "prettier/prettier",
+      "severity": 2,
+      "message": "Insert `⏎···`",
+      "sourceLine": "    u.lang = DEVICE[lang]; u.rate = speed;",
+      "count": 1
+    },
+    {
+      "file": "src/components/VoxReader.tsx",
+      "rule": "prettier/prettier",
+      "severity": 2,
+      "message": "Insert `⏎···`",
+      "sourceLine": "    s.speak(u); setStatus(\"Lendo com a voz do aparelho (não IA). A qualidade varia conforme o dispositivo.\");",
+      "count": 1
+    },
+    {
+      "file": "src/components/VoxReader.tsx",
+      "rule": "prettier/prettier",
+      "severity": 2,
+      "message": "Replace `·setIdx((i)·=>·Math.min(segments.length·-·1,·Math.max(0,·i·+·d)));·setUrl(null);·window.speechSynthesis?.cancel();` with `⏎····setIdx((i)·=>·Math.min(segments.length·-·1,·Math.max(0,·i·+·d)));⏎····setUrl(null);⏎····window.speechSynthesis?.cancel();⏎·`",
+      "sourceLine": "  const go = (d: number) => { setIdx((i) => Math.min(segments.length - 1, Math.max(0, i + d))); setUrl(null); window.speechSynthesis?.cancel(); };",
+      "count": 1
+    },
+    {
+      "file": "src/components/VoxReader.tsx",
+      "rule": "prettier/prettier",
+      "severity": 2,
+      "message": "Replace `IA·VoiceStudio···aguardando·configuração·do·servidor` with `⏎··········IA·VoiceStudio···aguardando·configuração·do·servidor⏎········`",
+      "sourceLine": "        <span className=\"text-xs text-muted-foreground\">IA VoiceStudio · aguardando configuração do servidor</span>",
+      "count": 1
+    },
+    {
+      "file": "src/components/VoxReader.tsx",
+      "rule": "prettier/prettier",
+      "severity": 2,
+      "message": "Insert `⏎··········`",
+      "sourceLine": "        <label className=\"text-sm\">Idioma",
+      "count": 1
+    },
+    {
+      "file": "src/components/VoxReader.tsx",
+      "rule": "prettier/prettier",
+      "severity": 2,
+      "message": "Replace `·className=\"field·mt-1\"·value={lang}·onChange={(e)·=>·{·setLang(e.target.value·as·Lang);·setUrl(null);·}}` with `⏎············className=\"field·mt-1\"⏎············value={lang}⏎············onChange={(e)·=>·{⏎··············setLang(e.target.value·as·Lang);⏎··············setUrl(null);⏎············}}⏎··········`",
+      "sourceLine": "          <select className=\"field mt-1\" value={lang} onChange={(e) => { setLang(e.target.value as Lang); setUrl(null); }}>",
+      "count": 1
+    },
+    {
+      "file": "src/components/VoxReader.tsx",
+      "rule": "prettier/prettier",
+      "severity": 2,
+      "message": "Replace `<option·key={l}·value={l}>{LABEL[l]}{l·===·\"la\"·?·\"·(experimental)\"·:·\"\"}</option>` with `(⏎··············<option·key={l}·value={l}>⏎················{LABEL[l]}⏎················{l·===·\"la\"·?·\"·(experimental)\"·:·\"\"}⏎··············</option>⏎············)`",
+      "sourceLine": "            {langs.map((l) => <option key={l} value={l}>{LABEL[l]}{l === \"la\" ? \" (experimental)\" : \"\"}</option>)}",
+      "count": 1
+    },
+    {
+      "file": "src/components/VoxReader.tsx",
+      "rule": "prettier/prettier",
+      "severity": 2,
+      "message": "Insert `⏎··········`",
+      "sourceLine": "        <label className=\"text-sm\">Velocidade",
+      "count": 1
+    },
+    {
+      "file": "src/components/VoxReader.tsx",
+      "rule": "prettier/prettier",
+      "severity": 2,
+      "message": "Replace `·className=\"field·mt-1\"·value={speed}·onChange={(e)·=>·setSpeed(Number(e.target.value))}` with `⏎············className=\"field·mt-1\"⏎············value={speed}⏎············onChange={(e)·=>·setSpeed(Number(e.target.value))}⏎··········`",
+      "sourceLine": "          <select className=\"field mt-1\" value={speed} onChange={(e) => setSpeed(Number(e.target.value))}>",
+      "count": 1
+    },
+    {
+      "file": "src/components/VoxReader.tsx",
+      "rule": "prettier/prettier",
+      "severity": 2,
+      "message": "Replace `<option·value={1}>1×</option>` with `⏎············<option·value={1}>1×</option>⏎············`",
+      "sourceLine": "            <option value={0.85}>0,85×</option><option value={1}>1×</option><option value={1.15}>1,15×</option>",
+      "count": 1
+    },
+    {
+      "file": "src/components/VoxReader.tsx",
+      "rule": "prettier/prettier",
+      "severity": 2,
+      "message": "Insert `⏎··········`",
+      "sourceLine": "        <label className=\"text-sm\">Voz",
+      "count": 1
+    },
+    {
+      "file": "src/components/VoxReader.tsx",
+      "rule": "prettier/prettier",
+      "severity": 2,
+      "message": "Replace `<option>Leitor·(padrão)</option>` with `⏎············<option>Leitor·(padrão)</option>⏎··········`",
+      "sourceLine": "          <select className=\"field mt-1\" disabled><option>Leitor (padrão)</option></select>",
+      "count": 1
+    },
+    {
+      "file": "src/components/VoxReader.tsx",
+      "rule": "prettier/prettier",
+      "severity": 2,
+      "message": "Replace `<p·className=\"mt-3·text-sm·text-primary\">Latim:·experimental·—·aguardando·modelo·de·pronúncia·eclesiástica·validado.·Não·simulamos·pronúncia;·use·o·guia·escrito.</p>` with `(⏎········<p·className=\"mt-3·text-sm·text-primary\">⏎··········Latim:·experimental·—·aguardando·modelo·de·pronúncia·eclesiástica·validado.·Não·simulamos⏎··········pronúncia;·use·o·guia·escrito.⏎········</p>⏎······)`",
+      "sourceLine": "      {latin && <p className=\"mt-3 text-sm text-primary\">Latim: experimental — aguardando modelo de pronúncia eclesiástica validado. Não simulamos pronúncia; use o guia escrito.</p>}",
+      "count": 1
+    },
+    {
+      "file": "src/components/VoxReader.tsx",
+      "rule": "prettier/prettier",
+      "severity": 2,
+      "message": "Replace `{segments[idx]}` with `⏎········{segments[idx]}⏎······`",
+      "sourceLine": "      <blockquote className=\"mt-3 border-l-2 border-gold pl-3 italic text-sm\">{segments[idx]}</blockquote>",
+      "count": 1
+    },
+    {
+      "file": "src/components/VoxReader.tsx",
+      "rule": "prettier/prettier",
+      "severity": 2,
+      "message": "Replace `·className=\"btn·btn-ghost\"·onClick={()·=>·go(-1)}·disabled={idx·===·0}·aria-label=\"Trecho·anterior\">‹·Anterior` with `⏎··········className=\"btn·btn-ghost\"⏎··········onClick={()·=>·go(-1)}⏎··········disabled={idx·===·0}⏎··········aria-label=\"Trecho·anterior\"⏎········>⏎··········‹·Anterior⏎········`",
+      "sourceLine": "        <button className=\"btn btn-ghost\" onClick={() => go(-1)} disabled={idx === 0} aria-label=\"Trecho anterior\">‹ Anterior</button>",
+      "count": 1
+    },
+    {
+      "file": "src/components/VoxReader.tsx",
+      "rule": "prettier/prettier",
+      "severity": 2,
+      "message": "Replace `{busy·?·\"Gerando…\"·:·\"Gerar·com·IA\"}` with `⏎··········{busy·?·\"Gerando…\"·:·\"Gerar·com·IA\"}⏎········`",
+      "sourceLine": "        <button className=\"btn\" onClick={generate} disabled={busy || latin}>{busy ? \"Gerando…\" : \"Gerar com IA\"}</button>",
+      "count": 1
+    },
+    {
+      "file": "src/components/VoxReader.tsx",
+      "rule": "prettier/prettier",
+      "severity": 2,
+      "message": "Replace `Voz·do·aparelho·(não·IA)` with `⏎··········Voz·do·aparelho·(não·IA)⏎········`",
+      "sourceLine": "        <button className=\"btn btn-green\" onClick={deviceSpeak} disabled={latin}>Voz do aparelho (não IA)</button>",
+      "count": 1
+    },
+    {
+      "file": "src/components/VoxReader.tsx",
+      "rule": "prettier/prettier",
+      "severity": 2,
+      "message": "Replace `·className=\"btn·btn-ghost\"·onClick={()·=>·go(1)}·disabled={idx·>=·segments.length·-·1}·aria-label=\"Próximo·trecho\">Próximo·›` with `⏎··········className=\"btn·btn-ghost\"⏎··········onClick={()·=>·go(1)}⏎··········disabled={idx·>=·segments.length·-·1}⏎··········aria-label=\"Próximo·trecho\"⏎········>⏎··········Próximo·›⏎········`",
+      "sourceLine": "        <button className=\"btn btn-ghost\" onClick={() => go(1)} disabled={idx >= segments.length - 1} aria-label=\"Próximo trecho\">Próximo ›</button>",
+      "count": 1
+    },
+    {
+      "file": "src/components/VoxReader.tsx",
+      "rule": "prettier/prettier",
+      "severity": 2,
+      "message": "Replace `<audio·ref={audio}·src={url}·controls·className=\"mt-3·w-full\"·onEnded={()·=>·setStatus(\"Trecho·concluído.·Avance·para·o·próximo.\")}·/>` with `(⏎········<audio⏎··········ref={audio}⏎··········src={url}⏎··········controls⏎··········className=\"mt-3·w-full\"⏎··········onEnded={()·=>·setStatus(\"Trecho·concluído.·Avance·para·o·próximo.\")}⏎········/>⏎······)`",
+      "sourceLine": "      {url && <audio ref={audio} src={url} controls className=\"mt-3 w-full\" onEnded={() => setStatus(\"Trecho concluído. Avance para o próximo.\")} />}",
+      "count": 1
+    },
+    {
+      "file": "src/components/ui/badge.tsx",
+      "rule": "react-refresh/only-export-components",
+      "severity": 1,
+      "message": "Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components.",
+      "sourceLine": "export { Badge, badgeVariants };",
+      "count": 1
+    },
+    {
+      "file": "src/components/ui/button.tsx",
+      "rule": "react-refresh/only-export-components",
+      "severity": 1,
+      "message": "Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components.",
+      "sourceLine": "export { Button, buttonVariants };",
+      "count": 1
+    },
+    {
+      "file": "src/components/ui/form.tsx",
+      "rule": "react-refresh/only-export-components",
+      "severity": 1,
+      "message": "Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components.",
+      "sourceLine": "  useFormField,",
+      "count": 1
+    },
+    {
+      "file": "src/components/ui/navigation-menu.tsx",
+      "rule": "react-refresh/only-export-components",
+      "severity": 1,
+      "message": "Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components.",
+      "sourceLine": "  navigationMenuTriggerStyle,",
+      "count": 1
+    },
+    {
+      "file": "src/components/ui/sidebar.tsx",
+      "rule": "react-refresh/only-export-components",
+      "severity": 1,
+      "message": "Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components.",
+      "sourceLine": "  useSidebar,",
+      "count": 1
+    },
+    {
+      "file": "src/components/ui/toggle.tsx",
+      "rule": "react-refresh/only-export-components",
+      "severity": 1,
+      "message": "Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components.",
+      "sourceLine": "export { Toggle, toggleVariants };",
+      "count": 1
+    },
+    {
+      "file": "src/lib/segment.ts",
+      "rule": "prettier/prettier",
+      "severity": 2,
+      "message": "Replace `·if·(cur.trim())·segments.push(cur.trim());·cur·=·\"\";` with `⏎····if·(cur.trim())·segments.push(cur.trim());⏎····cur·=·\"\";⏎·`",
+      "sourceLine": "  const push = () => { if (cur.trim()) segments.push(cur.trim()); cur = \"\"; };",
+      "count": 1
+    },
+    {
+      "file": "src/lib/segment.ts",
+      "rule": "prettier/prettier",
+      "severity": 2,
+      "message": "Replace `·segments.push(piece.trim());·piece·=·w;·}` with `⏎··········segments.push(piece.trim());⏎··········piece·=·w;`",
+      "sourceLine": "        if ((piece + \" \" + w).trim().length > MAX_SEGMENT) { segments.push(piece.trim()); piece = w; }",
+      "count": 1
+    },
+    {
+      "file": "src/lib/segment.ts",
+      "rule": "prettier/prettier",
+      "severity": 2,
+      "message": "Insert `·}`",
+      "sourceLine": "        else piece = (piece + \" \" + w).trim();",
+      "count": 1
+    },
+    {
+      "file": "src/lib/segment.ts",
+      "rule": "prettier/prettier",
+      "severity": 2,
+      "message": "Replace `·push();·cur·=·s;·}` with `⏎······push();⏎······cur·=·s;`",
+      "sourceLine": "    } else if ((cur + s).trim().length > MAX_SEGMENT) { push(); cur = s; }",
+      "count": 1
+    },
+    {
+      "file": "src/lib/segment.ts",
+      "rule": "prettier/prettier",
+      "severity": 2,
+      "message": "Insert `·}`",
+      "sourceLine": "    else cur += s;",
+      "count": 1
+    },
+    {
+      "file": "src/routes/__root.tsx",
+      "rule": "prettier/prettier",
+      "severity": 2,
+      "message": "Replace `<Link·to=\"/\"·className=\"btn\">Voltar·ao·início</Link>` with `⏎··········<Link·to=\"/\"·className=\"btn\">⏎············Voltar·ao·início⏎··········</Link>⏎········`",
+      "sourceLine": "        <div className=\"mt-6\"><Link to=\"/\" className=\"btn\">Voltar ao início</Link></div>",
+      "count": 1
+    },
+    {
+      "file": "src/routes/__root.tsx",
+      "rule": "prettier/prettier",
+      "severity": 2,
+      "message": "Replace `·className=\"btn\"·onClick={()·=>·{·router.invalidate();·reset();·}}>Tentar·novamente` with `⏎············className=\"btn\"⏎············onClick={()·=>·{⏎··············router.invalidate();⏎··············reset();⏎············}}⏎··········>⏎············Tentar·novamente⏎··········`",
+      "sourceLine": "          <button className=\"btn\" onClick={() => { router.invalidate(); reset(); }}>Tentar novamente</button>",
+      "count": 1
+    },
+    {
+      "file": "src/routes/__root.tsx",
+      "rule": "prettier/prettier",
+      "severity": 2,
+      "message": "Replace `Início` with `⏎············Início⏎··········`",
+      "sourceLine": "          <a href=\"/\" className=\"btn btn-ghost\">Início</a>",
+      "count": 1
+    },
+    {
+      "file": "src/routes/__root.tsx",
+      "rule": "prettier/prettier",
+      "severity": 2,
+      "message": "Replace `·rel:·\"stylesheet\",·href:·\"https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=EB+Garamond:ital,wght@0,400;0,600;1,400&display=swap\"` with `⏎········rel:·\"stylesheet\",⏎········href:·\"https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=EB+Garamond:ital,wght@0,400;0,600;1,400&display=swap\",⏎·····`",
+      "sourceLine": "      { rel: \"stylesheet\", href: \"https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=EB+Garamond:ital,wght@0,400;0,600;1,400&display=swap\" },",
+      "count": 1
+    },
+    {
+      "file": "src/routes/__root.tsx",
+      "rule": "prettier/prettier",
+      "severity": 2,
+      "message": "Replace `<HeadContent·/>` with `⏎········<HeadContent·/>⏎······`",
+      "sourceLine": "      <head><HeadContent /></head>",
+      "count": 1
+    },
+    {
+      "file": "src/routes/__root.tsx",
+      "rule": "prettier/prettier",
+      "severity": 2,
+      "message": "Replace `{children}<Scripts·/>` with `⏎········{children}⏎········<Scripts·/>⏎······`",
+      "sourceLine": "      <body>{children}<Scripts /></body>",
+      "count": 1
+    },
+    {
+      "file": "src/routes/__root.tsx",
+      "rule": "prettier/prettier",
+      "severity": 2,
+      "message": "Replace `<Outlet·/>` with `⏎········<Outlet·/>⏎······`",
+      "sourceLine": "      <AppShell><Outlet /></AppShell>",
+      "count": 1
+    },
+    {
+      "file": "src/routes/api/tts.ts",
+      "rule": "prettier/prettier",
+      "severity": 2,
+      "message": "Insert `⏎·`",
+      "sourceLine": "const LIMIT = 20, WINDOW = 60_000;",
+      "count": 1
+    },
+    {
+      "file": "src/routes/api/tts.ts",
+      "rule": "prettier/prettier",
+      "severity": 2,
+      "message": "Replace `·status,·headers:·{·\"content-type\":·\"application/json\"·}` with `⏎····status,⏎····headers:·{·\"content-type\":·\"application/json\"·},⏎·`",
+      "sourceLine": "  new Response(JSON.stringify({ code, message }), { status, headers: { \"content-type\": \"application/json\" } });",
+      "count": 1
+    },
+    {
+      "file": "src/routes/api/tts.ts",
+      "rule": "prettier/prettier",
+      "severity": 2,
+      "message": "Insert `⏎·········`",
+      "sourceLine": "        if (origin && new URL(origin).host !== new URL(request.url).host) return err(403, \"forbidden\", \"Origem não permitida.\");",
+      "count": 1
+    },
+    {
+      "file": "src/routes/api/tts.ts",
+      "rule": "prettier/prettier",
+      "severity": 2,
+      "message": "Insert `⏎·········`",
+      "sourceLine": "        if (recent.length >= LIMIT) return err(429, \"rate_limited\", \"Muitas solicitações. Aguarde um minuto.\");",
+      "count": 1
+    },
+    {
+      "file": "src/routes/api/tts.ts",
+      "rule": "prettier/prettier",
+      "severity": 2,
+      "message": "Insert `⏎·······`",
+      "sourceLine": "        recent.push(now); hits.set(ip, recent);",
+      "count": 1
+    },
+    {
+      "file": "src/routes/api/tts.ts",
+      "rule": "prettier/prettier",
+      "severity": 2,
+      "message": "Replace `·body·=·await·request.json();·}·catch·{·return·err(400,·\"bad_request\",·\"Corpo·inválido.\");` with `⏎··········body·=·await·request.json();⏎········}·catch·{⏎··········return·err(400,·\"bad_request\",·\"Corpo·inválido.\");⏎·······`",
+      "sourceLine": "        try { body = await request.json(); } catch { return err(400, \"bad_request\", \"Corpo inválido.\"); }",
+      "count": 1
+    },
+    {
+      "file": "src/routes/api/tts.ts",
+      "rule": "prettier/prettier",
+      "severity": 2,
+      "message": "Insert `⏎·········`",
+      "sourceLine": "        if (!text || text.length > 420) return err(400, \"bad_text\", \"Trecho vazio ou acima de 420 caracteres.\");",
+      "count": 1
+    },
+    {
+      "file": "src/routes/api/tts.ts",
+      "rule": "prettier/prettier",
+      "severity": 2,
+      "message": "Insert `⏎·········`",
+      "sourceLine": "        if (!LANGS.has(language)) return err(400, \"bad_language\", \"Idioma não suportado pela IA (pt, en, de).\");",
+      "count": 1
+    },
+    {
+      "file": "src/routes/api/tts.ts",
+      "rule": "prettier/prettier",
+      "severity": 2,
+      "message": "Insert `⏎·········`",
+      "sourceLine": "        if (!base) return err(503, \"not_configured\", \"Aguardando configuração do servidor VoiceStudio.\");",
+      "count": 1
+    },
+    {
+      "file": "src/routes/api/tts.ts",
+      "rule": "prettier/prettier",
+      "severity": 2,
+      "message": "Replace `·\"content-type\":·\"application/json\",·...(key·?·{·authorization:·`Bearer·${key}`·}·:·{})` with `⏎··············\"content-type\":·\"application/json\",⏎··············...(key·?·{·authorization:·`Bearer·${key}`·}·:·{}),⏎···········`",
+      "sourceLine": "            headers: { \"content-type\": \"application/json\", ...(key ? { authorization: `Bearer ${key}` } : {}) },",
+      "count": 1
+    },
+    {
+      "file": "src/routes/api/tts.ts",
+      "rule": "prettier/prettier",
+      "severity": 2,
+      "message": "Replace `·model:·\"tts-1\",·input:·text,·voice:·\"default\",·language,·speed,·response_format:·\"mp3\"` with `⏎··············model:·\"tts-1\",⏎··············input:·text,⏎··············voice:·\"default\",⏎··············language,⏎··············speed,⏎··············response_format:·\"mp3\",⏎···········`",
+      "sourceLine": "            body: JSON.stringify({ model: \"tts-1\", input: text, voice: \"default\", language, speed, response_format: \"mp3\" }),",
+      "count": 1
+    },
+    {
+      "file": "src/routes/api/tts.ts",
+      "rule": "prettier/prettier",
+      "severity": 2,
+      "message": "Replace `502,·\"upstream_error\",·`O·servidor·de·voz·respondeu·com·erro·(${res.status}).`` with `⏎··············502,⏎··············\"upstream_error\",⏎··············`O·servidor·de·voz·respondeu·com·erro·(${res.status}).`,⏎············`",
+      "sourceLine": "            return err(502, \"upstream_error\", `O servidor de voz respondeu com erro (${res.status}).`);",
+      "count": 1
+    },
+    {
+      "file": "src/routes/api/tts.ts",
+      "rule": "prettier/prettier",
+      "severity": 2,
+      "message": "Replace `·headers:·{·\"content-type\":·\"audio/mpeg\",·\"cache-control\":·\"no-store\"·}` with `⏎············headers:·{·\"content-type\":·\"audio/mpeg\",·\"cache-control\":·\"no-store\"·},⏎·········`",
+      "sourceLine": "          return new Response(res.body, { headers: { \"content-type\": \"audio/mpeg\", \"cache-control\": \"no-store\" } });",
+      "count": 1
+    },
+    {
+      "file": "src/routes/api/tts.ts",
+      "rule": "prettier/prettier",
+      "severity": 2,
+      "message": "Replace `·clearTimeout(timer);` with `⏎··········clearTimeout(timer);⏎·······`",
+      "sourceLine": "        } finally { clearTimeout(timer); }",
+      "count": 1
+    },
+    {
+      "file": "src/routes/disputatio.tsx",
+      "rule": "prettier/prettier",
+      "severity": 2,
+      "message": "Replace `·meta(\"Disputatio\",·\"Exercício·de·questão·disputada:·tese,·premissas,·objeções·e·respostas,·com·perguntas·socráticas·em·vez·de·respostas·prontas.\"` with `⏎····meta(⏎······\"Disputatio\",⏎······\"Exercício·de·questão·disputada:·tese,·premissas,·objeções·e·respostas,·com·perguntas·socráticas·em·vez·de·respostas·prontas.\",⏎····`",
+      "sourceLine": "  head: () => meta(\"Disputatio\", \"Exercício de questão disputada: tese, premissas, objeções e respostas, com perguntas socráticas em vez de respostas prontas.\"),",
+      "count": 1
+    },
+    {
+      "file": "src/routes/disputatio.tsx",
+      "rule": "prettier/prettier",
+      "severity": 2,
+      "message": "Replace `·id:·\"tese\",·label:·\"Tese·(Respondeo)\",·q:·\"O·que·exatamente·você·afirma?·Que·significa·'certeza'·na·sua·formulação:·psicológica·ou·objetiva?\"` with `⏎····id:·\"tese\",⏎····label:·\"Tese·(Respondeo)\",⏎····q:·\"O·que·exatamente·você·afirma?·Que·significa·'certeza'·na·sua·formulação:·psicológica·ou·objetiva?\",⏎·`",
+      "sourceLine": "  { id: \"tese\", label: \"Tese (Respondeo)\", q: \"O que exatamente você afirma? Que significa 'certeza' na sua formulação: psicológica ou objetiva?\" },",
+      "count": 1
+    },
+    {
+      "file": "src/routes/disputatio.tsx",
+      "rule": "prettier/prettier",
+      "severity": 2,
+      "message": "Replace `·id:·\"premissas\",·label:·\"Premissas\",·q:·\"Cada·premissa·é·evidente,·demonstrada·ou·apenas·suposta?·Qual·delas·um·cético·atacaria·primeiro?\"` with `⏎····id:·\"premissas\",⏎····label:·\"Premissas\",⏎····q:·\"Cada·premissa·é·evidente,·demonstrada·ou·apenas·suposta?·Qual·delas·um·cético·atacaria·primeiro?\",⏎·`",
+      "sourceLine": "  { id: \"premissas\", label: \"Premissas\", q: \"Cada premissa é evidente, demonstrada ou apenas suposta? Qual delas um cético atacaria primeiro?\" },",
+      "count": 1
+    },
+    {
+      "file": "src/routes/disputatio.tsx",
+      "rule": "prettier/prettier",
+      "severity": 2,
+      "message": "Replace `·id:·\"objecoes\",·label:·\"Objeções·(Videtur·quod)\",·q:·\"Formule·a·objeção·mais·forte·possível·—·tão·forte·que·um·cético·a·assinaria.\"` with `⏎····id:·\"objecoes\",⏎····label:·\"Objeções·(Videtur·quod)\",⏎····q:·\"Formule·a·objeção·mais·forte·possível·—·tão·forte·que·um·cético·a·assinaria.\",⏎·`",
+      "sourceLine": "  { id: \"objecoes\", label: \"Objeções (Videtur quod)\", q: \"Formule a objeção mais forte possível — tão forte que um cético a assinaria.\" },",
+      "count": 1
+    },
+    {
+      "file": "src/routes/disputatio.tsx",
+      "rule": "prettier/prettier",
+      "severity": 2,
+      "message": "Replace `·id:·\"respostas\",·label:·\"Respostas·às·objeções·(Ad·primum…)\",·q:·\"Sua·resposta·distingue·algo,·ou·apenas·repete·a·tese?·Que·distinção·resolve·a·dificuldade?\"` with `⏎····id:·\"respostas\",⏎····label:·\"Respostas·às·objeções·(Ad·primum…)\",⏎····q:·\"Sua·resposta·distingue·algo,·ou·apenas·repete·a·tese?·Que·distinção·resolve·a·dificuldade?\",⏎·`",
+      "sourceLine": "  { id: \"respostas\", label: \"Respostas às objeções (Ad primum…)\", q: \"Sua resposta distingue algo, ou apenas repete a tese? Que distinção resolve a dificuldade?\" },",
+      "count": 1
+    },
+    {
+      "file": "src/routes/disputatio.tsx",
+      "rule": "prettier/prettier",
+      "severity": 2,
+      "message": "Replace `·id:·\"reflexao\",·label:·\"Reflexão·final\",·q:·\"O·que·você·ainda·não·sabe·responder?·Que·leitura·faria·a·seguir?\"` with `⏎····id:·\"reflexao\",⏎····label:·\"Reflexão·final\",⏎····q:·\"O·que·você·ainda·não·sabe·responder?·Que·leitura·faria·a·seguir?\",⏎·`",
+      "sourceLine": "  { id: \"reflexao\", label: \"Reflexão final\", q: \"O que você ainda não sabe responder? Que leitura faria a seguir?\" },",
+      "count": 1
+    },
+    {
+      "file": "src/routes/disputatio.tsx",
+      "rule": "prettier/prettier",
+      "severity": 2,
+      "message": "Insert `⏎·`",
+      "sourceLine": "const EXAMPLE = \"Questão: É possível conhecer algo com certeza? Parece que não. Primeira objeção: os sentidos às vezes enganam, como o remo que parece quebrado na água; ora, o que às vezes engana não gera certeza. Segunda objeção: todo raciocínio parte de premissas, que exigiriam outras premissas ao infinito. Em sentido contrário, quem afirma que nada é certo afirma isso como certo, e assim se contradiz. Respondo: há verdades conhecidas por si mesmas, como o princípio de não contradição, que não se demonstram mas são pressupostas por toda demonstração, inclusive pela do cético. Ao primeiro, digo que o erro dos sentidos é corrigido por outros sentidos e pelo intelecto; reconhecer o erro já supõe um critério de verdade. Ao segundo, digo que a demonstração não procede ao infinito, mas termina em primeiros princípios evidentes.\";",
+      "count": 1
+    },
+    {
+      "file": "src/routes/disputatio.tsx",
+      "rule": "prettier/prettier",
+      "severity": 2,
+      "message": "Replace `·try·{·setV(JSON.parse(localStorage.getItem(KEY)·||·\"{}\"));·}·catch·{·/*·ignore·*/·}` with `⏎····try·{⏎······setV(JSON.parse(localStorage.getItem(KEY)·||·\"{}\"));⏎····}·catch·{⏎······/*·ignore·*/⏎····}⏎·`",
+      "sourceLine": "  useEffect(() => { try { setV(JSON.parse(localStorage.getItem(KEY) || \"{}\")); } catch { /* ignore */ } }, []);",
+      "count": 1
+    },
+    {
+      "file": "src/routes/disputatio.tsx",
+      "rule": "prettier/prettier",
+      "severity": 2,
+      "message": "Replace `·const·n·=·{·...v,·[id]:·val·};·setV(n);·localStorage.setItem(KEY,·JSON.stringify(n));` with `⏎····const·n·=·{·...v,·[id]:·val·};⏎····setV(n);⏎····localStorage.setItem(KEY,·JSON.stringify(n));⏎·`",
+      "sourceLine": "  const set = (id: string, val: string) => { const n = { ...v, [id]: val }; setV(n); localStorage.setItem(KEY, JSON.stringify(n)); };",
+      "count": 1
+    },
+    {
+      "file": "src/routes/disputatio.tsx",
+      "rule": "prettier/prettier",
+      "severity": 2,
+      "message": "Replace `O·mestre·não·entrega·a·resposta:·pergunta·até·que·você·a·encontre·e·a·defenda.` with `⏎········O·mestre·não·entrega·a·resposta:·pergunta·até·que·você·a·encontre·e·a·defenda.⏎······`",
+      "sourceLine": "      <PageTitle kicker=\"Quaestio disputata\" title=\"Disputatio\">O mestre não entrega a resposta: pergunta até que você a encontre e a defenda.</PageTitle>",
+      "count": 1
+    },
+    {
+      "file": "src/routes/disputatio.tsx",
+      "rule": "prettier/prettier",
+      "severity": 2,
+      "message": "Replace `<dt·className=\"font-display·text-xl·text-primary\">Videtur·quod·non</dt><dd>1.·Os·sentidos·às·vezes·enganam·(o·remo·\"quebrado\"·na·água);·o·que·às·vezes·engana·não·gera·certeza.·2.·Todo·raciocínio·parte·de·premissas,·que·exigiriam·outras·ao·infinito.</dd>` with `⏎············<dt·className=\"font-display·text-xl·text-primary\">Videtur·quod·non</dt>⏎············<dd>⏎··············1.·Os·sentidos·às·vezes·enganam·(o·remo·\"quebrado\"·na·água);·o·que·às·vezes·engana·não⏎··············gera·certeza.·2.·Todo·raciocínio·parte·de·premissas,·que·exigiriam·outras·ao·infinito.⏎············</dd>⏎··········`",
+      "sourceLine": "          <div><dt className=\"font-display text-xl text-primary\">Videtur quod non</dt><dd>1. Os sentidos às vezes enganam (o remo \"quebrado\" na água); o que às vezes engana não gera certeza. 2. Todo raciocínio parte de premissas, que exigiriam outras ao infinito.</dd></div>",
+      "count": 1
+    },
+    {
+      "file": "src/routes/disputatio.tsx",
+      "rule": "prettier/prettier",
+      "severity": 2,
+      "message": "Replace `<dt·className=\"font-display·text-xl·text-primary\">Sed·contra</dt><dd>Quem·afirma·que·nada·é·certo·afirma-o·como·certo,·e·se·contradiz·(cf.·Aristóteles,·Metafísica·IV;·Agostinho·contra·os·acadêmicos).</dd>` with `⏎············<dt·className=\"font-display·text-xl·text-primary\">Sed·contra</dt>⏎············<dd>⏎··············Quem·afirma·que·nada·é·certo·afirma-o·como·certo,·e·se·contradiz·(cf.·Aristóteles,⏎··············Metafísica·IV;·Agostinho·contra·os·acadêmicos).⏎············</dd>⏎··········`",
+      "sourceLine": "          <div><dt className=\"font-display text-xl text-primary\">Sed contra</dt><dd>Quem afirma que nada é certo afirma-o como certo, e se contradiz (cf. Aristóteles, Metafísica IV; Agostinho contra os acadêmicos).</dd></div>",
+      "count": 1
+    },
+    {
+      "file": "src/routes/disputatio.tsx",
+      "rule": "prettier/prettier",
+      "severity": 2,
+      "message": "Replace `<dt·className=\"font-display·text-xl·text-primary\">Respondeo</dt><dd>Há·verdades·conhecidas·por·si·mesmas,·como·o·princípio·de·não·contradição,·não·demonstradas·mas·pressupostas·por·toda·demonstração·—·inclusive·a·do·cético.</dd>` with `⏎············<dt·className=\"font-display·text-xl·text-primary\">Respondeo</dt>⏎············<dd>⏎··············Há·verdades·conhecidas·por·si·mesmas,·como·o·princípio·de·não·contradição,·não⏎··············demonstradas·mas·pressupostas·por·toda·demonstração·—·inclusive·a·do·cético.⏎············</dd>⏎··········`",
+      "sourceLine": "          <div><dt className=\"font-display text-xl text-primary\">Respondeo</dt><dd>Há verdades conhecidas por si mesmas, como o princípio de não contradição, não demonstradas mas pressupostas por toda demonstração — inclusive a do cético.</dd></div>",
+      "count": 1
+    },
+    {
+      "file": "src/routes/disputatio.tsx",
+      "rule": "prettier/prettier",
+      "severity": 2,
+      "message": "Replace `<dt·className=\"font-display·text-xl·text-primary\">Ad·primum·/·Ad·secundum</dt><dd>O·erro·dos·sentidos·é·corrigido·por·outros·sentidos·e·pelo·intelecto;·reconhecer·um·erro·já·supõe·um·critério.·A·demonstração·não·regride·ao·infinito:·termina·em·primeiros·princípios.</dd>` with `⏎············<dt·className=\"font-display·text-xl·text-primary\">Ad·primum·/·Ad·secundum</dt>⏎············<dd>⏎··············O·erro·dos·sentidos·é·corrigido·por·outros·sentidos·e·pelo·intelecto;·reconhecer·um⏎··············erro·já·supõe·um·critério.·A·demonstração·não·regride·ao·infinito:·termina·em⏎··············primeiros·princípios.⏎············</dd>⏎··········`",
+      "sourceLine": "          <div><dt className=\"font-display text-xl text-primary\">Ad primum / Ad secundum</dt><dd>O erro dos sentidos é corrigido por outros sentidos e pelo intelecto; reconhecer um erro já supõe um critério. A demonstração não regride ao infinito: termina em primeiros princípios.</dd></div>",
+      "count": 1
+    },
+    {
+      "file": "src/routes/disputatio.tsx",
+      "rule": "prettier/prettier",
+      "severity": 2,
+      "message": "Replace `Não·aceite·o·exemplo·por·autoridade.·A·resposta·acima·convence·você?·Onde·ela·é·mais·fraca?` with `⏎··········Não·aceite·o·exemplo·por·autoridade.·A·resposta·acima·convence·você?·Onde·ela·é·mais⏎··········fraca?⏎········`",
+      "sourceLine": "        <p className=\"text-sm text-muted-foreground\">Não aceite o exemplo por autoridade. A resposta acima convence você? Onde ela é mais fraca?</p>",
+      "count": 1
+    },
+    {
+      "file": "src/routes/disputatio.tsx",
+      "rule": "prettier/prettier",
+      "severity": 2,
+      "message": "Replace `Escolha·a·mesma·questão·ou·outra.·Tudo·é·salvo·apenas·neste·aparelho.` with `⏎········Escolha·a·mesma·questão·ou·outra.·Tudo·é·salvo·apenas·neste·aparelho.⏎······`",
+      "sourceLine": "      <p className=\"text-muted-foreground mb-4\">Escolha a mesma questão ou outra. Tudo é salvo apenas neste aparelho.</p>",
+      "count": 1
+    },
+    {
+      "file": "src/routes/disputatio.tsx",
+      "rule": "prettier/prettier",
+      "severity": 2,
+      "message": "Replace `{f.label}` with `⏎··············{f.label}⏎············`",
+      "sourceLine": "            <label htmlFor={f.id} className=\"font-display text-xl\">{f.label}</label>",
+      "count": 1
+    },
+    {
+      "file": "src/routes/disputatio.tsx",
+      "rule": "prettier/prettier",
+      "severity": 2,
+      "message": "Replace `·id={f.id}·className=\"field·mt-2·min-h-28\"·value={v[f.id]·??·\"\"}·onChange={(e)·=>·set(f.id,·e.target.value)}` with `⏎··············id={f.id}⏎··············className=\"field·mt-2·min-h-28\"⏎··············value={v[f.id]·??·\"\"}⏎··············onChange={(e)·=>·set(f.id,·e.target.value)}⏎···········`",
+      "sourceLine": "            <textarea id={f.id} className=\"field mt-2 min-h-28\" value={v[f.id] ?? \"\"} onChange={(e) => set(f.id, e.target.value)} />",
+      "count": 1
+    },
+    {
+      "file": "src/routes/suma.tsx",
+      "rule": "prettier/prettier",
+      "severity": 2,
+      "message": "Replace `·meta(\"Suma·Teológica\",·\"Estrutura·da·Summa·Theologiae·de·São·Tomás·—·partes,·questões·e·artigos·—·com·leitor·demonstrativo.\"` with `⏎····meta(⏎······\"Suma·Teológica\",⏎······\"Estrutura·da·Summa·Theologiae·de·São·Tomás·—·partes,·questões·e·artigos·—·com·leitor·demonstrativo.\",⏎····`",
+      "sourceLine": "  head: () => meta(\"Suma Teológica\", \"Estrutura da Summa Theologiae de São Tomás — partes, questões e artigos — com leitor demonstrativo.\"),",
+      "count": 1
+    },
+    {
+      "file": "src/routes/suma.tsx",
+      "rule": "prettier/prettier",
+      "severity": 2,
+      "message": "Replace `·p:·\"Prima·Pars·(I)\",·q:·\"119·questões\",·d:·\"Deus·uno·e·trino;·criação,·anjos,·homem;·governo·divino.\"` with `⏎····p:·\"Prima·Pars·(I)\",⏎····q:·\"119·questões\",⏎····d:·\"Deus·uno·e·trino;·criação,·anjos,·homem;·governo·divino.\",⏎·`",
+      "sourceLine": "  { p: \"Prima Pars (I)\", q: \"119 questões\", d: \"Deus uno e trino; criação, anjos, homem; governo divino.\" },",
+      "count": 1
+    },
+    {
+      "file": "src/routes/suma.tsx",
+      "rule": "prettier/prettier",
+      "severity": 2,
+      "message": "Replace `·p:·\"Prima·Secundae·(I-II)\",·q:·\"114·questões\",·d:·\"Fim·último,·atos·humanos,·paixões,·hábitos,·virtudes,·lei·e·graça.\"` with `⏎····p:·\"Prima·Secundae·(I-II)\",⏎····q:·\"114·questões\",⏎····d:·\"Fim·último,·atos·humanos,·paixões,·hábitos,·virtudes,·lei·e·graça.\",⏎·`",
+      "sourceLine": "  { p: \"Prima Secundae (I-II)\", q: \"114 questões\", d: \"Fim último, atos humanos, paixões, hábitos, virtudes, lei e graça.\" },",
+      "count": 1
+    },
+    {
+      "file": "src/routes/suma.tsx",
+      "rule": "prettier/prettier",
+      "severity": 2,
+      "message": "Replace `·p:·\"Secunda·Secundae·(II-II)\",·q:·\"189·questões\",·d:·\"Virtudes·teologais·e·cardeais·em·particular;·estados·de·vida.\"` with `⏎····p:·\"Secunda·Secundae·(II-II)\",⏎····q:·\"189·questões\",⏎····d:·\"Virtudes·teologais·e·cardeais·em·particular;·estados·de·vida.\",⏎·`",
+      "sourceLine": "  { p: \"Secunda Secundae (II-II)\", q: \"189 questões\", d: \"Virtudes teologais e cardeais em particular; estados de vida.\" },",
+      "count": 1
+    },
+    {
+      "file": "src/routes/suma.tsx",
+      "rule": "prettier/prettier",
+      "severity": 2,
+      "message": "Replace `·p:·\"Supplementum\",·q:·\"99·questões\",·d:·\"Completado·por·discípulos·a·partir·do·Comentário·às·Sentenças.\"` with `⏎····p:·\"Supplementum\",⏎····q:·\"99·questões\",⏎····d:·\"Completado·por·discípulos·a·partir·do·Comentário·às·Sentenças.\",⏎·`",
+      "sourceLine": "  { p: \"Supplementum\", q: \"99 questões\", d: \"Completado por discípulos a partir do Comentário às Sentenças.\" },",
+      "count": 1
+    },
+    {
+      "file": "src/routes/suma.tsx",
+      "rule": "prettier/prettier",
+      "severity": 2,
+      "message": "Insert `⏎·`",
+      "sourceLine": "const DEMO = \"Primeira Parte, questão 2, artigo 3: Se Deus existe. Parece que não. Primeira objeção: se um dos contrários fosse infinito, destruiria totalmente o outro; ora, o nome Deus significa um bem infinito; logo, se Deus existisse, não haveria mal. Mas há mal no mundo; logo Deus não existe. Em sentido contrário, diz-se na pessoa de Deus: Eu sou aquele que sou. Respondo: a existência de Deus pode ser provada por cinco vias. A primeira e mais manifesta parte do movimento. Resumo demonstrativo; não é o texto integral.\";",
+      "count": 1
+    },
+    {
+      "file": "src/routes/suma.tsx",
+      "rule": "prettier/prettier",
+      "severity": 2,
+      "message": "Replace `Estudada·após·os·fundamentos.·O·corpus·integral·ainda·não·foi·carregado:·abaixo·há·a·estrutura·e·um·artigo·demonstrativo·resumido.` with `⏎········Estudada·após·os·fundamentos.·O·corpus·integral·ainda·não·foi·carregado:·abaixo·há·a⏎········estrutura·e·um·artigo·demonstrativo·resumido.⏎······`",
+      "sourceLine": "      <PageTitle kicker=\"Summa Theologiae\" title=\"Suma Teológica\">Estudada após os fundamentos. O corpus integral ainda não foi carregado: abaixo há a estrutura e um artigo demonstrativo resumido.</PageTitle>",
+      "count": 1
+    },
+    {
+      "file": "src/routes/suma.tsx",
+      "rule": "prettier/prettier",
+      "severity": 2,
+      "message": "Replace `I·›·q.·2·›·a.·3` with `⏎··········I·›·q.·2·›·a.·3⏎········`",
+      "sourceLine": "        <nav aria-label=\"Localização\" className=\"text-sm text-muted-foreground mt-1\">I › q. 2 › a. 3</nav>",
+      "count": 1
+    },
+    {
+      "file": "src/routes/suma.tsx",
+      "rule": "prettier/prettier",
+      "severity": 2,
+      "message": "Insert `⏎·········`",
+      "sourceLine": "          Espaço reservado para indexação futura: busca por parte/questão/artigo, texto latino de domínio público em paralelo e notas do estudante.",
+      "count": 1
+    }
+  ]
+}
