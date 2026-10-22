@@ -1,6 +1,6 @@
 # Validação dos PRs em revisão
 
-O workflow `Validate PR` executa em cada atualização de PR, inclusive rascunhos, e em pushes para `feat/**`. Testa o SHA exato da branch, sem fazer merge sintético, publicar, usar segredos ou aprovar a revisão. As actions são fixadas por SHA e a permissão é somente de leitura do conteúdo.
+O workflow `Validate PR` executa em pushes para `feat/**`, inclusive em PRs em rascunho, e na abertura, reabertura, edição ou passagem de um PR para revisão. O evento `synchronize` é atendido pelo próprio push, evitando duas execuções para a mesma atualização. Testa o SHA exato da branch, sem fazer merge sintético, publicar, usar segredos ou aprovar a revisão. As actions são fixadas por SHA e a permissão é somente de leitura do conteúdo.
 
 O evento de push permite verificar o head mesmo quando o GitHub suspende eventos `pull_request` por conflito entre branches. Nesse evento, o controle de qualidade compara todo o escopo acumulado com a main congelada desta auditoria (`40fb9905e88e0db61e07d579b7bee2f2f1c8afd9`); no evento de PR, usa o SHA de sua base. A concorrência por nome de branch cancela uma execução duplicada, mantendo a mais recente. Um CI verde não demonstra ausência de conflitos de integração.
 
