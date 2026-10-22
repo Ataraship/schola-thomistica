@@ -1,4 +1,12 @@
 import { useCallback, useEffect, useState } from "react";
+import {
+  guardPendingStorage,
+  readStorageFields,
+  sameStoredJSON,
+  storageFieldPrefix,
+  writeStorageField,
+  writeWithStorageLock,
+} from "@/lib/storage-lock";
 
 export const PROGRESS_KEY = "schola-progress-v1";
 const CHANGED = "schola-progress-changed";
@@ -18,6 +26,10 @@ const WRITE_ERROR =
 const READ_ERROR = "Não foi possível ler o progresso salvo. Os dados existentes foram preservados.";
 let pending: Mutation[] = [];
 let lastKnown: Progress = empty;
+let writeFailed = false;
+let releaseGuard: (() => void) | undefined;
+let repairQueued = false;
+let mirrorFailed = false;
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return !!value && typeof value === "object" && !Array.isArray(value);
@@ -48,8 +60,8 @@ export function parseProgress(raw: string | null): Progress {
   return result;
 }
 
-function applyPending(base: Progress): Progress {
-  return pending.reduce((progress, mutation) => {
+function applyMutations(base: Progress, mutations: Mutation[]): Progress {
+  return mutations.reduce((progress, mutation) => {
     if (mutation.kind === "note")
       return { ...progress, notes: { ...progress.notes, [mutation.id]: mutation.value } };
     if (mutation.kind === "last")
@@ -60,28 +72,96 @@ function applyPending(base: Progress): Progress {
   }, base);
 }
 
-function readStored(): Snapshot & { raw: string | null | undefined } {
+function mutationField(mutation: Mutation): string {
+  return mutation.kind === "last" ? "last" : `${mutation.kind}:${mutation.id}`;
+}
+
+function isMutation(field: string, value: unknown): value is Mutation {
+  if (!isRecord(value)) return false;
+  if (value["kind"] === "note")
+    return (
+      typeof value["id"] === "string" &&
+      typeof value["value"] === "string" &&
+      field === `note:${value["id"]}`
+    );
+  if (value["kind"] === "completion")
+    return (
+      typeof value["id"] === "string" &&
+      typeof value["completed"] === "boolean" &&
+      field === `completion:${value["id"]}`
+    );
+  return (
+    field === "last" &&
+    value["kind"] === "last" &&
+    typeof value["to"] === "string" &&
+    /^\/(?:formacao|suma|idiomas|disputatio)(?:\?|$)/.test(value["to"]) &&
+    typeof value["title"] === "string"
+  );
+}
+
+function readStored(): Snapshot & { raw: string | null | undefined; journalReady: boolean } {
   let raw: string | null;
   try {
     raw = localStorage.getItem(PROGRESS_KEY);
   } catch {
-    return { progress: lastKnown, raw: undefined, storageError: READ_ERROR };
+    return { progress: lastKnown, raw: undefined, journalReady: false, storageError: READ_ERROR };
   }
+  let base = lastKnown;
+  let rootError: string | null = null;
   try {
-    const progress = parseProgress(raw);
-    lastKnown = progress;
-    return { progress, raw, storageError: null };
+    base = parseProgress(raw);
   } catch {
-    return { progress: lastKnown, raw, storageError: READ_ERROR };
+    rootError = READ_ERROR;
   }
+  const journal = readStorageFields(PROGRESS_KEY, isMutation);
+  const progress = applyMutations(base, Object.values(journal.fields));
+  const journalReady = journal.readable && !journal.invalid;
+  if (!rootError) lastKnown = progress;
+  return {
+    progress,
+    raw,
+    journalReady,
+    storageError: rootError || !journalReady ? READ_ERROR : null,
+  };
 }
 
 function read(): Snapshot {
   const stored = readStored();
   return {
-    progress: applyPending(stored.progress),
-    storageError: pending.length ? WRITE_ERROR : stored.storageError,
+    progress: applyMutations(stored.progress, pending),
+    storageError:
+      (pending.length && writeFailed) || mirrorFailed ? WRITE_ERROR : stored.storageError,
   };
+}
+
+function notify(snapshot: Snapshot) {
+  window.dispatchEvent(new CustomEvent(CHANGED, { detail: snapshot }));
+}
+
+/** Reconcile the legacy mirror, never another tab's field journal. */
+function repairMirror() {
+  if (repairQueued) return;
+  repairQueued = true;
+  writeWithStorageLock(
+    PROGRESS_KEY,
+    () => {
+      repairQueued = false;
+      const stored = readStored();
+      // A background refresh must never replace malformed bytes.
+      if (stored.storageError || stored.raw === undefined) return;
+      try {
+        if (!sameStoredJSON(stored.raw, stored.progress))
+          localStorage.setItem(PROGRESS_KEY, JSON.stringify(stored.progress));
+        mirrorFailed = false;
+      } catch {
+        mirrorFailed = true;
+      }
+      notify(read());
+    },
+    () => {
+      repairQueued = false;
+    },
+  );
 }
 
 export function useProgress() {
@@ -90,7 +170,14 @@ export function useProgress() {
     setSnapshot(read());
     const changed = (event: Event) => setSnapshot((event as CustomEvent<Snapshot>).detail);
     const stored = (event: StorageEvent) => {
-      if (event.key === PROGRESS_KEY || event.key === null) setSnapshot(read());
+      if (
+        event.key === PROGRESS_KEY ||
+        event.key?.startsWith(storageFieldPrefix(PROGRESS_KEY)) ||
+        event.key === null
+      ) {
+        setSnapshot(read());
+        repairMirror();
+      }
     };
     window.addEventListener(CHANGED, changed);
     window.addEventListener("storage", stored);
@@ -109,23 +196,61 @@ export function useProgress() {
         (item.kind !== "last" && mutation.kind !== "last" && item.id !== mutation.id),
     );
     pending.push(mutation);
-    const stored = readStored();
-    const next = applyPending(stored.progress);
-    let storageError: string | null = null;
-    try {
-      if (stored.raw === undefined) throw new Error("Cannot preserve unread storage");
-      // Never replace an unreadable document without preserving its exact bytes.
-      if (stored.storageError && stored.raw !== null)
-        localStorage.setItem(`${PROGRESS_KEY}-recovery-${Date.now()}`, stored.raw);
-      localStorage.setItem(PROGRESS_KEY, JSON.stringify(next));
-      pending = [];
-      lastKnown = next;
-    } catch {
-      storageError = WRITE_ERROR;
-    }
-    const result = { progress: next, storageError };
-    setSnapshot(result);
-    window.dispatchEvent(new CustomEvent(CHANGED, { detail: result }));
+    releaseGuard ??= guardPendingStorage(() => pending.length > 0);
+    const publish = (result: Snapshot) => {
+      setSnapshot(result);
+      window.dispatchEvent(new CustomEvent(CHANGED, { detail: result }));
+    };
+    // Editing remains immediate while a different tab holds the asynchronous lock.
+    publish(read());
+    writeWithStorageLock(
+      PROGRESS_KEY,
+      () => {
+        // Earlier callbacks may already have flushed all current mutations.
+        if (!pending.length) return;
+        // Read after acquiring the lock, never before waiting for another writer.
+        const stored = readStored();
+        let next = applyMutations(stored.progress, pending);
+        let storageError: string | null = null;
+        try {
+          if (stored.raw === undefined || !stored.journalReady)
+            throw new Error("Cannot preserve unread storage");
+          // Never replace an unreadable document without preserving its exact bytes.
+          if (stored.storageError && stored.raw !== null)
+            localStorage.setItem(`${PROGRESS_KEY}-recovery-${Date.now()}`, stored.raw);
+          for (const mutation of pending)
+            writeStorageField(PROGRESS_KEY, mutationField(mutation), mutation, isMutation);
+          // The journal is authoritative per field; root may be a stale Chromium cache.
+          const refreshed = readStored();
+          if (!refreshed.journalReady) throw new Error("Cannot read saved storage fields");
+          if (
+            refreshed.storageError &&
+            refreshed.raw !== null &&
+            refreshed.raw !== undefined &&
+            refreshed.raw !== stored.raw
+          )
+            localStorage.setItem(`${PROGRESS_KEY}-recovery-${Date.now()}`, refreshed.raw);
+          next = applyMutations(refreshed.progress, pending);
+          if (!sameStoredJSON(refreshed.raw ?? null, next))
+            localStorage.setItem(PROGRESS_KEY, JSON.stringify(next));
+          pending = [];
+          lastKnown = next;
+          writeFailed = false;
+          mirrorFailed = false;
+          releaseGuard?.();
+          releaseGuard = undefined;
+        } catch {
+          writeFailed = true;
+          storageError = WRITE_ERROR;
+        }
+        publish({ progress: next, storageError });
+      },
+      () => {
+        if (!pending.length) return;
+        writeFailed = true;
+        publish({ ...read(), storageError: WRITE_ERROR });
+      },
+    );
   }, []);
 
   const toggle = useCallback(
