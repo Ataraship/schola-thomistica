@@ -255,7 +255,17 @@ const legacy = (
   papelCurricular: "fundamental",
 });
 export const EXISTING_REFERENCES: readonly BibliographicReference[] = [
-  legacy("platao-republica", "Platão", "República", "Justiça, alma e Formas; livros VI–VII."),
+  {
+    ...legacy("platao-republica", "Platão", "República", "Justiça, conhecimento e Formas."),
+    idioma: "Grego; traduções de consulta em português e inglês, não incorporadas",
+    cobertura:
+      "Referência à República. Para a aula de conhecimento, consulta parcial de V, 476c–480a, e VI, 509d–511e. Anexo português de 467 páginas; não houve leitura integral nem identificação segura de sua tradução.",
+    origemVerificacao: "anexo-inspecao-parcial",
+    notasDeVerificacao: [
+      "Localizadores de Stephanus conferidos na edição inglesa de Paul Shorey (1935–1937), corpus Perseus; leitura comparada com Benjamin Jowett, Project Gutenberg 1497.",
+      "Também consultado parcialmente o anexo português. Não atribuir-lhe tradutor ou edição sem confirmação. A aula e o quadro da linha dividida são autorais, não o texto integral da obra.",
+    ],
+  },
   legacy("platao-fedon", "Platão", "Fédon", "Imortalidade da alma e recordação."),
   legacy(
     "aristoteles-organon",
@@ -300,4 +310,31 @@ export const EXISTING_REFERENCES: readonly BibliographicReference[] = [
   ),
   legacy("de-ente", "São Tomás de Aquino", "De ente et essentia", "Ente, essência e existência."),
 ];
-export const BIBLIOGRAPHY = [...EXISTING_REFERENCES, ...NEW_REFERENCES] as const;
+/** Additional reference actually consulted for the Plato lessons; not one of the ten inventory entries. */
+export const STUDY_REFERENCES: readonly BibliographicReference[] = [
+  {
+    id: "platao-menon",
+    autor: "Platão; tradução de Maura Iglésias",
+    titulo: "Mênon — excerto de consulta",
+    idioma: "Português",
+    categoria: "filosofia",
+    cobertura:
+      "Anexo de 34 páginas com elementos editoriais e trecho do diálogo, de 70a até aproximadamente 86d. A aula se limita a 80d–86c. Não é o Mênon integral.",
+    statusDisponibilidade: "referencia",
+    direitos:
+      "Tradução contemporânea PUC-Rio/Loyola, com direitos reservados. Somente exposição e exercício autorais; nenhum PDF ou trecho da tradução disponibilizado.",
+    modulos: ["Platão", "Formação Fundamental", "Disputatio"],
+    verificacao: "parcial",
+    origemVerificacao: "anexo-inspecao-parcial",
+    notasDeVerificacao: [
+      "Conferidos título, crédito da tradutora e editoras no anexo. Consultados o paradoxo da investigação, a apresentação da rememoração, o episódio geométrico e a cautela de Sócrates em 86b–c.",
+      "O arquivo termina durante a passagem 86d. Não contém as passagens posteriores sobre opinião verdadeira de 97–98; não atribuir acesso a elas com base neste anexo.",
+    ],
+    papelCurricular: "fundamental",
+  },
+];
+export const BIBLIOGRAPHY = [
+  ...EXISTING_REFERENCES,
+  ...NEW_REFERENCES,
+  ...STUDY_REFERENCES,
+] as const;
