@@ -1,6 +1,7 @@
 import { PLATO_LESSONS } from "@/data/plato";
 import { ARISTOTLE_LESSONS } from "@/data/aristotle";
 import { METAPHYSICS_LESSONS } from "@/data/metaphysics";
+import { PATRISTICS_LESSONS } from "@/data/patristics";
 
 export type LessonStudy = {
   objective: string;
@@ -447,17 +448,9 @@ export const TRACKS: Track[] = [
     id: "patristica",
     title: "Patrística",
     latin: "Patres",
-    summary: "Agostinho, Atanásio e João Damasceno: fé que busca inteligência.",
-    lessons: [
-      {
-        id: "pat-1",
-        title: "Agostinho: crede ut intelligas",
-        concepts: ["Iluminação", "Fé e razão", "Interioridade"],
-        body: "Agostinho ensina que a fé precede e prepara a compreensão, sem dispensá-la. Contra os céticos acadêmicos, mostra que quem duvida sabe que duvida, e portanto existe. Atanásio, em Sobre a Encarnação do Verbo, defende a divindade do Filho contra o arianismo. João Damasceno, na Exposição da Fé Ortodoxa, sistematiza a tradição grega e será muito citado por São Tomás.",
-        exercise:
-          "Explique o argumento 'si fallor, sum' e compare-o, com cautela histórica, ao cogito de Descartes.",
-      },
-    ],
+    summary:
+      "Agostinho: fé, interioridade e iluminação; leitura e argumentação na tradição patrística.",
+    lessons: PATRISTICS_LESSONS,
   },
   {
     id: "tomista",
