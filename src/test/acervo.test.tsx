@@ -69,9 +69,11 @@ describe("original logic sequence", () => {
       "log-definicao",
       "log-2",
       "log-validade",
+      "log-falacias",
+      "log-dialetica",
     ]);
     const invalid = lessons[0]!;
-    const valid = lessons.at(-1)!;
+    const valid = lessons.find((lesson) => lesson.id === "log-validade")!;
     expect(invalid.study!.argument.analysis).toContain("inferência é inválida");
     expect(invalid.study!.argument.analysis).toContain("proposições são verdadeiras");
     expect(valid.study!.argument.analysis).toContain("primeira premissa é falsa");

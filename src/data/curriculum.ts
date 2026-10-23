@@ -5,6 +5,7 @@ export type LessonStudy = {
   criteria: string[];
   reflection: string;
   source: string;
+  practice?: { href: string; label: string };
 };
 export type Lesson = {
   id: string;
@@ -30,7 +31,7 @@ export const TRACKS: Track[] = [
     title: "Lógica",
     latin: "Logica",
     summary:
-      "Conceito → juízo → definição → silogismo → validade: aprender a justificar o próprio juízo.",
+      "Conceito → juízo → definição → silogismo → validade → falácias → dialética: justificar e revisar o próprio juízo.",
     lessons: [
       {
         id: "log-1",
@@ -271,6 +272,130 @@ export const TRACKS: Track[] = [
             "Construa um novo argumento válido com uma premissa falsa e outro inválido com premissas verdadeiras. Troque os conteúdos dos exemplos da aula, conserve as formas e explique por que as classificações permanecem. Revise sua resposta inicial de log-1 à luz do que aprendeu.",
           source:
             "Exposição, exemplos e critérios autorais. Orientação clássica: Aristóteles, Primeiros Analíticos I, 1 e 4; Segundos Analíticos I, 2, sobre as exigências da demonstração. A distinção é ensinada aqui sem reproduzir traduções modernas.",
+        },
+      },
+      {
+        id: "log-falacias",
+        title: "Falácias: diagnosticar e corrigir uma razão",
+        concepts: ["Equivocação", "Relevância", "Reconstrução do argumento"],
+        body: "Uma falácia parece oferecer uma boa razão, mas falha no apoio à conclusão. Dar um nome ao defeito não basta: explique onde ele ocorre, por que importa e como corrigir a passagem. Uma falácia pode ser cometida sem intenção de enganar. Descobri-la também não demonstra, por si só, que a conclusão seja falsa ou que o interlocutor seja desonesto.",
+        exercise:
+          "Examine A: ‘Todo banco, no sentido de instituição financeira, realiza operações financeiras; este assento é um banco, no sentido de mobiliário; logo este assento realiza operações financeiras’. Explique o defeito sem apenas nomeá-lo e reescreva as premissas com termos inequívocos. Depois compare B: ‘Esse autor é vaidoso, logo sua demonstração é falsa’ com C: ‘O catalogador especializado examinou a escrita e o material do manuscrito; seu parecer é uma razão inicial para investigar a data proposta’. Indique o que falta a B e por que C não é automaticamente um erro por recorrer a alguém competente. Não trate C como certeza demonstrativa.",
+        options: [
+          {
+            text: "A é válido, porque repete a palavra banco nas duas premissas.",
+            correct: false,
+            why: "O que conecta as premissas é um conceito usado no mesmo sentido, não a repetição de letras. Aqui banco designa objetos distintos.",
+          },
+          {
+            text: "A muda o sentido de banco e não estabelece a ligação necessária à conclusão.",
+            correct: true,
+            why: "A primeira premissa fala de instituições financeiras e a segunda, de um assento. Ao explicitar os sentidos, desaparece a aparência de um termo médio comum. Isso é equivocar o termo, não refutar toda forma de silogismo.",
+          },
+          {
+            text: "A é inválido apenas porque toda conclusão falsa torna inválido um argumento.",
+            correct: false,
+            why: "A unidade anterior mostrou argumentos válidos com premissa falsa. Aqui é preciso apontar a mudança de sentido que impede a inferência, em vez de usar só a falsidade da conclusão.",
+          },
+        ],
+        study: {
+          objective:
+            "Localizar uma falha de apoio à conclusão, explicar seu mecanismo e revisar o argumento sem usar a classificação como ataque pessoal.",
+          sections: [
+            {
+              title: "O diagnóstico vem depois da reconstrução",
+              text: "Escreva primeiro o que se pretende concluir e quais razões foram oferecidas. Verifique se reconstruiu a posição que o outro realmente sustenta. Um espantalho troca uma tese por uma versão mais fácil de atacar: responder a ‘alguma consulta exige supervisão’ como se fosse ‘todo estudo deve ser proibido’ muda o objeto do debate. Um falso dilema trata duas opções como únicas sem justificar que esgotam as possibilidades. Antes de aplicar qualquer nome, mostre a tese substituída ou a alternativa que ficou indevidamente de fora.",
+            },
+            {
+              title: "A mesma palavra pode esconder conceitos diferentes",
+              text: "Na equivocação, a aparência de conexão depende de mudar o sentido de um termo. Não é errado que uma palavra tenha muitos sentidos; o defeito está em raciocinar como se o sentido permanecesse o mesmo. Em A, marque banco financeiro e banco-assento antes de desenhar a forma do argumento. A solução não é proibir a palavra: é manter um sentido em cada inferência ou oferecer uma razão adicional que realmente conecte os objetos. Se uma distinção destrói a ligação, a conclusão ainda precisa de outra prova.",
+            },
+            {
+              title: "Relevância e autoridade precisam de contexto",
+              text: "A vaidade de um autor não identifica um erro na demonstração que ele apresentou. Se a questão fosse a confiabilidade de um testemunho, fatos pertinentes sobre sinceridade e competência poderiam importar; ainda seria necessário mostrar sua ligação com o caso. De modo semelhante, um parecer especializado pode oferecer uma razão revisável quando há competência pertinente, evidências e possibilidade de exame. Não vira demonstração só pelo prestígio do especialista. No estudo católico, explicite também se está reconstruindo uma prova filosófica ou trabalhando com uma autoridade reconhecida como premissa teológica: esses usos pedem justificativas diferentes.",
+            },
+            {
+              title: "Criticar também exige disciplina",
+              text: "Após mostrar uma falha, diga exatamente o que ela retira do argumento. De ‘esta defesa não prova a tese’ não se segue ‘a tese contrária está provada’. Esse salto é às vezes chamado de falácia da falácia. Refaça a mesma exigência sobre uma opinião que você aprecia: se recusaria uma razão na boca do adversário, não a aceite apenas porque agora favorece sua conclusão. Uma boa crítica propõe um reparo, procura evidência ou reconhece o ponto ainda em aberto.",
+            },
+          ],
+          argument: {
+            premises: [
+              "Todo banco, no sentido de instituição financeira, realiza operações financeiras.",
+              "Este assento é um banco, no sentido de mobiliário.",
+            ],
+            conclusion: "Logo, este assento realiza operações financeiras.",
+            analysis:
+              "A usa banco financeiro e banco-assento como se fossem um único termo médio. Ao explicitar os dois conceitos, percebe-se que as premissas não ligam o assento a operações financeiras. A inferência é inválida por equivocação. Em B, uma característica pessoal não refuta a demonstração sem uma razão pertinente. Em C, competência e exame de evidências podem oferecer apoio inicial revisável; é preciso investigar métodos, razões e objeções ao parecer. Nem toda referência a autoridade tem a mesma função ou o mesmo valor.",
+          },
+          criteria: [
+            "Reconstruí a tese e indiquei o ponto exato em que o apoio falha.",
+            "Mostrei os dois sentidos de banco e expliquei por que não constituem um termo médio comum.",
+            "Distingui um ataque pessoal de uma crítica pertinente e um parecer revisável de uma demonstração.",
+            "Corrigi a razão ou reconheci a lacuna sem concluir que toda tese mal defendida seja falsa.",
+          ],
+          reflection:
+            "Escolha uma afirmação com a qual concorda e formule uma defesa ruim dela. Diagnostique o defeito, depois ofereça uma razão melhor ou declare o que ainda precisa investigar. Escreva a objeção que seu argumento revisado ainda deve enfrentar.",
+          source:
+            "Exposição, nomenclatura pedagógica e exemplos autorais. Consulta parcial: Aristóteles, Refutações sofísticas, capítulos 1 e 4, na compilação alemã Organon enviada pelo responsável, sobre refutações aparentes e equívocos da linguagem. Não se atribui a Aristóteles toda a terminologia atual desta aula nem se reproduz a tradução.",
+          practice: {
+            href: "/disputatio#sua-disputatio",
+            label: "Examinar uma razão na Disputatio",
+          },
+        },
+      },
+      {
+        id: "log-dialetica",
+        title: "Dialética: da objeção ao juízo revisto",
+        concepts: ["Éndoxa", "Objeção forte", "Concedo, nego, distingo"],
+        body: "Nos Tópicos, Aristóteles distingue o raciocínio demonstrativo do dialético, que parte de opiniões reputadas, os éndoxa. Isso permite examinar problemas e dificuldades a partir de posições reconhecidas, sem fazer da popularidade uma prova da verdade. Nesta oficina, passamos desse exame à prática da questão disputada: compreender o argumento adversário, identificar o que ele atinge e responder com razões.",
+        exercise:
+          "Discuta ‘A fragilidade de um manuscrito basta, por si só, para proibir toda consulta?’. Defina o domínio e formule uma tese inicial. Apresente duas premissas, a melhor objeção e uma resposta. Considere o caso hipotético de um exemplar frágil que, segundo exame de conservação, admite uma consulta supervisionada sem dano: explique o que esse caso atinge e o que ele não permite generalizar. Conclua com um juízo revisto e diga que fato ou argumento o faria reconsiderar.",
+        study: {
+          objective:
+            "Conduzir uma primeira disputatio, respondendo a uma objeção real e delimitando o alcance do próprio juízo.",
+          sections: [
+            {
+              title: "Uma opinião reputada é um ponto de exame",
+              text: "Aristóteles chama éndoxa às opiniões aceitas por todos, pela maioria ou pelos sábios, com distinções entre esses grupos. Partir delas numa discussão não é afirmar que toda maioria tem razão. A investigação torna visíveis tensões, consequências e dificuldades; não converte uma premissa aceita em verdade demonstrada. Em Tópicos I, 2, a dialética é apresentada como útil ao exercício, ao encontro com posições alheias e à investigação filosófica. Identifique sempre o que o interlocutor concede e o que ainda precisa ser defendido.",
+            },
+            {
+              title: "A objeção deve atingir uma razão identificável",
+              text: "Escreva a tese com alcance claro: toda consulta, alguma consulta ou uma consulta sob certas condições? Depois numere as premissas. A objeção mais útil não é a mais agressiva: é a que torna difícil manter uma premissa, a inferência ou a aplicação ao caso. Pergunte se o adversário reconheceria a versão que você escreveu. Quando o problema for uma afirmação universal, um contraexemplo pertinente pode bastar para rejeitá-la; ele não estabelece, sozinho, uma política completa para todos os casos.",
+            },
+            {
+              title: "Conceder, negar e distinguir com razões",
+              text: "Conceder é reconhecer uma afirmação ou dificuldade procedente. Negar exige explicar por que uma premissa ou inferência deve ser recusada. Distinguir é mostrar sentidos ou condições diferentes que mudam a avaliação. As três operações podem colaborar: concedo o dever de preservar; distingo consultas com riscos e condições diversos; nego que a fragilidade, isoladamente, já prove que toda consulta é incompatível com conservar. Essa resposta ainda depende de justificar os critérios e apurar os fatos. Pronunciar distingo não resolve a questão se a distinção não for pertinente.",
+            },
+            {
+              title: "O juízo final pode ser mais limitado que o inicial",
+              text: "Uma tese revista pode abandonar uma universal e explicar as condições em que a afirmação se sustenta. Isso pode ser progresso intelectual. Preserve o registro inicial para comparar o que mudou, qual objeção motivou a mudança e qual dúvida permanece. A passagem dos Tópicos à disputatio cristã envolve tradições e formas históricas diferentes; a atividade usa ferramentas em diálogo e não atribui a Aristóteles a estrutura de um artigo da Suma. A meta é justificar o próprio juízo, não reproduzir um modelo como fórmula de vitória.",
+            },
+          ],
+          argument: {
+            premises: [
+              "Se toda consulta de manuscrito frágil fosse incompatível com conservá-lo, não existiria consulta de um exemplar frágil compatível com sua conservação.",
+              "No caso hipotético proposto, existe uma consulta supervisionada de um exemplar frágil compatível com sua conservação.",
+            ],
+            conclusion:
+              "Logo, no caso hipotético, não é verdade que toda consulta de manuscrito frágil seja incompatível com sua conservação.",
+            analysis:
+              "A existência de um caso contrário nega a universal. A segunda premissa é concedida no exercício fictício; numa biblioteca real, exigiria exame material e avaliação responsável. A conclusão não autoriza toda consulta, não mede sozinha o risco de outros exemplares e não fornece todos os critérios de uma política justa. Uma objeção pode aceitar a importância do acesso e exigir critérios mais seguros para avaliar danos. Responder a ela pede investigar esses critérios, em vez de trocar a universal inicial pela universal contrária.",
+          },
+          criteria: [
+            "Defini a questão e distingui premissas concedidas de afirmações ainda não demonstradas.",
+            "Formulei uma objeção que atinge uma premissa, inferência ou aplicação identificada.",
+            "Concedi uma dificuldade real e justifiquei uma negação ou distinção pertinente.",
+            "Comparei tese inicial e juízo revisto, delimitando a conclusão e a investigação seguinte.",
+          ],
+          reflection:
+            "Releia sua tese inicial sem apagá-la. Na revisão, registre o que mudou e qual objeção produziu essa mudança; se a manteve, apresente a razão adicional que respondeu à dificuldade. Transfira a estrutura para uma questão de sua escolha na Disputatio, sem confundir acompanhar etapas com demonstrar a conclusão.",
+          source:
+            "Exposição e caso autorais. Consulta parcial: Aristóteles, Tópicos I, 1–2, texto grego da edição Bekker (1837), no corpus First1KGreek. O roteiro de conceder, negar e distinguir é uma adaptação pedagógica da prática escolástica, não uma citação desses capítulos.",
+          practice: {
+            href: "/disputatio#sua-disputatio",
+            label: "Escrever e revisar sua Disputatio",
+          },
         },
       },
     ],
