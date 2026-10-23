@@ -1,4 +1,6 @@
 import { PLATO_LESSONS } from "@/data/plato";
+import { ARISTOTLE_LESSONS } from "@/data/aristotle";
+import { METAPHYSICS_LESSONS } from "@/data/metaphysics";
 
 export type LessonStudy = {
   objective: string;
@@ -431,16 +433,7 @@ export const TRACKS: Track[] = [
     latin: "Aristoteles",
     prereq: "logica",
     summary: "Substância, causas, ato e potência: a filosofia da natureza e do ser.",
-    lessons: [
-      {
-        id: "ari-1",
-        title: "As quatro causas",
-        concepts: ["Material", "Formal", "Eficiente", "Final"],
-        body: "Na Física e na Metafísica, Aristóteles afirma que conhecer é conhecer pelas causas. A causa material é aquilo de que algo é feito; a formal, o que algo é; a eficiente, o que o produz; a final, aquilo para o qual existe. A causa final não exige consciência: a natureza age em vista de um fim. Note a diferença em relação a Platão: a forma está na coisa, não separada dela.",
-        exercise:
-          "Aplique as quatro causas a uma árvore. Qual delas parece mais difícil de defender diante de um interlocutor moderno, e por quê?",
-      },
-    ],
+    lessons: ARISTOTLE_LESSONS,
   },
   {
     id: "metafisica",
@@ -448,16 +441,7 @@ export const TRACKS: Track[] = [
     latin: "Metaphysica",
     prereq: "aristoteles",
     summary: "Ente, essência e existência; ato e potência.",
-    lessons: [
-      {
-        id: "met-1",
-        title: "Ato e potência",
-        concepts: ["Mudança", "Ato", "Potência"],
-        body: "Parmênides negava a mudança: o ser não pode vir do não-ser. Aristóteles responde distinguindo o ser em ato do ser em potência: a semente é árvore em potência. A mudança é a passagem da potência ao ato, que exige algo já em ato. São Tomás desenvolverá a distinção real entre essência e ato de ser (esse) nas criaturas, tese que vai além do texto aristotélico.",
-        exercise:
-          "Reconstrua o argumento de Parmênides em forma silogística e mostre em qual premissa Aristóteles introduz uma distinção.",
-      },
-    ],
+    lessons: METAPHYSICS_LESSONS,
   },
   {
     id: "patristica",
