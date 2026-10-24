@@ -7,7 +7,7 @@ import {
 import { useProgress } from "@/lib/progress";
 
 export function StudiumFontium({ activity = IMAGES_STUDIUM }: { activity?: StudiumActivity }) {
-  const { progress, setNote, toggle, storageError } = useProgress();
+  const { progress, setNote, toggle, storageError, isReady } = useProgress();
   const completed = progress.completed.includes(activity.id);
   const elementId = (suffix: string) => `${activity.id}:${suffix}`;
 
@@ -91,6 +91,11 @@ export function StudiumFontium({ activity = IMAGES_STUDIUM }: { activity?: Studi
           </p>
         </article>
       )}
+      {!isReady && (
+        <p role="status" className="mt-4">
+          Carregando seus registros…
+        </p>
+      )}
       {storageError && (
         <p role="alert" className="text-primary mt-4">
           {storageError}
@@ -135,6 +140,7 @@ export function StudiumFontium({ activity = IMAGES_STUDIUM }: { activity?: Studi
             </label>
             <textarea
               id={studiumNoteKey(stage.id, activity.id)}
+              disabled={!isReady}
               className="field mt-2 min-h-32 scroll-mt-32"
               aria-describedby={elementId(`prompt-${stage.id}`)}
               value={progress.notes[studiumNoteKey(stage.id, activity.id)] ?? ""}
@@ -156,6 +162,7 @@ export function StudiumFontium({ activity = IMAGES_STUDIUM }: { activity?: Studi
             <label key={criterion.id} className="flex items-start gap-3 cursor-pointer">
               <input
                 type="checkbox"
+                disabled={!isReady}
                 className="mt-1"
                 checked={progress.notes[studiumCriterionKey(criterion.id, activity.id)] === "yes"}
                 onChange={(event) =>
@@ -173,6 +180,7 @@ export function StudiumFontium({ activity = IMAGES_STUDIUM }: { activity?: Studi
       <button
         className="btn btn-green mt-5"
         type="button"
+        disabled={!isReady}
         aria-pressed={completed}
         onClick={() => toggle(activity.id)}
       >

@@ -81,7 +81,7 @@ function Formacao() {
 }
 
 export function LessonWorkshop({ lesson }: { lesson: Lesson }) {
-  const { progress, setNote, toggle, storageError } = useProgress();
+  const { progress, setNote, toggle, storageError, isReady } = useProgress();
   const [showAnalysis, setShowAnalysis] = useState(false);
   const study = lesson.study;
   const attempt = progress.notes[lesson.id] ?? "";
@@ -160,11 +160,17 @@ export function LessonWorkshop({ lesson }: { lesson: Lesson }) {
       </label>
       <textarea
         id={`answer-${lesson.id}`}
+        disabled={!isReady}
         className="field mt-2 min-h-36"
         value={attempt}
         onChange={(event) => setNote(lesson.id, event.target.value)}
         placeholder="Identifique as premissas, a conclusão e a ligação entre elas. Procure uma objeção ou contraexemplo."
       />
+      {!isReady && (
+        <p role="status" className="mt-2">
+          Carregando seus registros…
+        </p>
+      )}
       {storageError && (
         <p role="alert" className="text-primary mt-2">
           {storageError}
@@ -175,7 +181,7 @@ export function LessonWorkshop({ lesson }: { lesson: Lesson }) {
           <button
             type="button"
             className="btn btn-ghost mt-4"
-            disabled={!attempt.trim()}
+            disabled={!isReady || !attempt.trim()}
             aria-expanded={showAnalysis}
             onClick={() => setShowAnalysis((value) => !value)}
           >
@@ -206,6 +212,7 @@ export function LessonWorkshop({ lesson }: { lesson: Lesson }) {
             <label key={item.text} className="field flex items-start gap-3 mt-2">
               <input
                 type="radio"
+                disabled={!isReady}
                 name={`choice-${lesson.id}`}
                 checked={pick === String(index)}
                 onChange={() => setNote(`${lesson.id}:choice`, String(index))}
@@ -229,6 +236,7 @@ export function LessonWorkshop({ lesson }: { lesson: Lesson }) {
           </label>
           <textarea
             id={`revision-${lesson.id}`}
+            disabled={!isReady}
             className="field mt-2 min-h-28"
             value={progress.notes[`${lesson.id}:revision`] ?? ""}
             onChange={(event) => setNote(`${lesson.id}:revision`, event.target.value)}
@@ -242,6 +250,7 @@ export function LessonWorkshop({ lesson }: { lesson: Lesson }) {
               <label key={criterion} className="flex gap-3 items-start mt-2">
                 <input
                   type="checkbox"
+                  disabled={!isReady}
                   checked={progress.notes[`${lesson.id}:criterion:${index}`] === "yes"}
                   onChange={(event) =>
                     setNote(`${lesson.id}:criterion:${index}`, event.target.checked ? "yes" : "no")
@@ -271,7 +280,12 @@ export function LessonWorkshop({ lesson }: { lesson: Lesson }) {
           )}
         </>
       )}
-      <button type="button" className="btn btn-green mt-5 block" onClick={() => toggle(lesson.id)}>
+      <button
+        type="button"
+        disabled={!isReady}
+        className="btn btn-green mt-5 block"
+        onClick={() => toggle(lesson.id)}
+      >
         {progress.completed.includes(lesson.id)
           ? "Marcar como não concluída"
           : "Marcar como concluída"}

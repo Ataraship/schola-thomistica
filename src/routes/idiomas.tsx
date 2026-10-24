@@ -42,7 +42,7 @@ const COURSES = {
 };
 
 export function Idiomas() {
-  const { progress, setNote, storageError } = useProgress();
+  const { progress, setNote, storageError, isReady } = useProgress();
   const savedCourse = progress.notes["idiomas:course"];
   const k: keyof typeof COURSES = savedCourse === "de" || savedCourse === "en" ? savedCourse : "la";
   const c = COURSES[k];
@@ -53,10 +53,16 @@ export function Idiomas() {
       <PageTitle kicker="Linguae" title="Idiomas">
         Percursos independentes e opcionais. Comece por qualquer um.
       </PageTitle>
+      {!isReady && (
+        <p role="status" className="mt-3">
+          Carregando seus registros…
+        </p>
+      )}
       <div aria-label="Cursos de idiomas" className="flex flex-wrap gap-2">
         {(Object.keys(COURSES) as (keyof typeof COURSES)[]).map((x) => (
           <button
             key={x}
+            disabled={!isReady}
             aria-pressed={x === k}
             className={`btn ${x === k ? "" : "btn-ghost"}`}
             onClick={() => setNote("idiomas:course", x)}
@@ -83,6 +89,7 @@ export function Idiomas() {
               <button
                 type="button"
                 key={item.id}
+                disabled={!isReady}
                 aria-pressed={path.id === item.id}
                 className={`btn ${path.id === item.id ? "" : "btn-ghost"}`}
                 onClick={() => setNote("de-path:selected", item.id)}
@@ -115,6 +122,7 @@ export function Idiomas() {
           </label>
           <textarea
             id={`de-path-${path.id}`}
+            disabled={!isReady}
             className="field mt-2 min-h-32"
             value={progress.notes[`de-path:${path.id}:answer`] ?? ""}
             onChange={(event) => setNote(`de-path:${path.id}:answer`, event.target.value)}
