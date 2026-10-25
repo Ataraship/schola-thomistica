@@ -2,6 +2,14 @@
 
 Os documentos `schola-progress-v1` e `schola-disputatio-v1` continuam no localStorage, com os mesmos IDs de aulas, respostas, conclusão e campos desconhecidos. Não há serviço, login ou sincronização entre dispositivos.
 
+## Inicialização dos campos de progresso
+
+O HTML renderizado no servidor ainda não possui os handlers React nem o progresso local do navegador. No commit `14219e1`, os campos eram editáveis nessa janela: uma entrada nativa anterior ao bootstrap não chegava ao journal e podia desaparecer quando o cliente carregava o valor salvo. A retenção controlada apenas do entry JavaScript reproduziu essa perda em Chromium e WebKit; o mesmo campo, editado depois da inicialização, gravou e recarregou corretamente.
+
+`useProgress` agora expõe `isReady`, inicialmente falso no servidor e no primeiro render do cliente. O sinal é habilitado depois da leitura inicial e da instalação dos listeners, junto com o snapshot carregado. Studium, formação e idiomas deixam seus controles de progresso desabilitados até esse ponto e informam “Carregando seus registros…”. Não há timer, espera artificial ou alteração das chaves, envelopes, locks e regras de gravação.
+
+Prontidão não significa sucesso do armazenamento: uma leitura negada ou falha de gravação continua permitindo edição pendente com aviso e retentativa, conforme o protocolo abaixo. A proteção impede aceitar entrada antes de o cliente poder acompanhá-la; não fornece sincronização entre dispositivos ou garantia de gravação diante de encerramento forçado. Os testes de inicialização cobrem SSR, hidratação com legado, primeira edição/journal e recuperação após leitura negada. A Disputatio usa seu hook próprio e não foi modificada por esta correção.
+
 Na cadeia revisada, o protocolo de campos do progresso começa no PR #2. A Disputatio o recebe a partir do PR #4; nas branches dos PRs #2 e #3, seu editor mantém a implementação anterior.
 
 ## Duas abas e documentos desatualizados

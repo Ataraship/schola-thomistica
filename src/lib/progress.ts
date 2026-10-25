@@ -166,6 +166,8 @@ function repairMirror() {
 
 export function useProgress() {
   const [snapshot, setSnapshot] = useState<Snapshot>({ progress: empty, storageError: null });
+  // SSR fields must not accept native input before React and the local store are ready.
+  const [isReady, setIsReady] = useState(false);
   useEffect(() => {
     setSnapshot(read());
     const changed = (event: Event) => setSnapshot((event as CustomEvent<Snapshot>).detail);
@@ -181,6 +183,8 @@ export function useProgress() {
     };
     window.addEventListener(CHANGED, changed);
     window.addEventListener("storage", stored);
+    // Readiness is separate from storage success: failed writes still retain editable pending work.
+    setIsReady(true);
     return () => {
       window.removeEventListener(CHANGED, changed);
       window.removeEventListener("storage", stored);
@@ -272,6 +276,7 @@ export function useProgress() {
   return {
     progress: snapshot.progress,
     storageError: snapshot.storageError,
+    isReady,
     toggle,
     setLast,
     setNote,
