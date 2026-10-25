@@ -326,8 +326,6 @@ it("does not replace the active activity when another tab changes the saved resu
   );
   act(() => window.dispatchEvent(new StorageEvent("storage", { key: fieldKey(id) })));
   expect(screen.getByLabelText("Nominativo singular (a rosa)")).toHaveValue("rosa");
-  expect(
-    screen.getByRole("heading", { name: "Casos: rosa e rosae", exact: true }),
-  ).toBeInTheDocument();
+  expect(screen.getByRole("heading", { name: /^Casos: rosa e rosae$/ })).toBeInTheDocument();
   expect(snapshot().notes[answerKey("la-rosa", "nominative")]).toBe("rosa");
 });
