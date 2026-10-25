@@ -69,8 +69,12 @@ export function AppShell({ children }: { children: ReactNode }) {
       return;
     }
     setTV(false);
-    if (tvButton.current?.getClientRects().length) tvButton.current.focus({ preventScroll: true });
-    else menuButton.current?.focus({ preventScroll: true });
+    const destination = tvButton.current?.getClientRects().length
+      ? tvButton.current
+      : (Array.from(
+          shell.current?.querySelectorAll<HTMLButtonElement>(".reading-toggle") ?? [],
+        ).find((button) => button.getClientRects().length) ?? menuButton.current);
+    destination?.focus();
   }, [open, closeMenu]);
   useDirectionalNavigation(tv, shell, leaveReading);
 

@@ -85,3 +85,23 @@ it("TV reading is session-only and does not create or replace storage records", 
     Object.fromEntries(Object.keys(localStorage).map((k) => [k, localStorage.getItem(k)])),
   ).toEqual(legacy);
 });
+
+it("restores the visible reading toggle after activation in the mobile menu and a desktop resize", () => {
+  render(<AppShell>Leitura</AppShell>);
+  fireEvent.click(screen.getByRole("button", { name: "Menu" }));
+  const mobile = within(document.getElementById("menu-mobile")!).getByRole("button", {
+    name: "Leitura para TV",
+  });
+  fireEvent.click(mobile);
+  const desktop = screen.getByRole("button", { name: "Sair da leitura para TV" });
+  vi.spyOn(HTMLElement.prototype, "getClientRects").mockImplementation(function (
+    this: HTMLElement,
+  ) {
+    return (this === desktop ? [{}] : []) as unknown as DOMRectList;
+  });
+  const main = screen.getByRole("main");
+  main.focus();
+  fireEvent.keyDown(main, { key: "Escape" });
+  expect(desktop).toHaveFocus();
+  expect(desktop).toHaveAttribute("aria-pressed", "false");
+});
