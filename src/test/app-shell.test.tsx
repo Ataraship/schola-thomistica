@@ -32,7 +32,7 @@ it("opens a labelled disclosure, focuses its first link and restores focus on Es
       <h1>Conteúdo</h1>
     </AppShell>,
   );
-  const button = screen.getByRole("button", { name: "Menu", exact: true });
+  const button = screen.getByRole("button", { name: "Menu" });
   fireEvent.click(button);
   expect(button).toHaveAttribute("aria-expanded", "true");
   const menu = document.getElementById("menu-mobile")!;
@@ -69,7 +69,7 @@ it("TV reading is session-only and does not create or replace storage records", 
       <h1>Conteúdo</h1>
     </AppShell>,
   );
-  const button = screen.getByRole("button", { name: "Leitura para TV", exact: true });
+  const button = screen.getByRole("button", { name: "Leitura para TV" });
   fireEvent.click(button);
   expect(button).toHaveAttribute("aria-pressed", "true");
   expect(screen.getByRole("status")).toHaveTextContent("Retorno");
@@ -77,7 +77,7 @@ it("TV reading is session-only and does not create or replace storage records", 
   expect(button).toHaveAttribute("aria-pressed", "false");
   unmount();
   render(<AppShell>Novamente</AppShell>);
-  expect(screen.getByRole("button", { name: "Leitura para TV", exact: true })).toHaveAttribute(
+  expect(screen.getByRole("button", { name: "Leitura para TV" })).toHaveAttribute(
     "aria-pressed",
     "false",
   );
