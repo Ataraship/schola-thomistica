@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useProgress } from "@/lib/progress";
 import { GERMAN_PATHS } from "@/data/language-paths";
 import { PageTitle } from "@/components/AppShell";
+import { MethodusEntry } from "@/components/MethodusEntry";
 import { VoxReader } from "@/components/VoxReader";
 import { meta } from "@/lib/meta";
 
@@ -148,6 +149,7 @@ export function Idiomas() {
         <p>{c.use}</p>
         <VoxReader key={k} text={c.body} defaultLang={c.lang} langs={[c.lang]} />
       </article>
+      <MethodusEntry key={k} course={k} />
     </div>
   );
 }

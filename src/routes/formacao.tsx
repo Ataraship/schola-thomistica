@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { PageTitle } from "@/components/AppShell";
+import { MethodusEntry } from "@/components/MethodusEntry";
 import { VoxReader } from "@/components/VoxReader";
 import { BIBLIOGRAPHY } from "@/data/bibliography";
 import { TRACKS, type Lesson } from "@/data/curriculum";
@@ -76,6 +77,7 @@ function Formacao() {
         ))}
       </nav>
       <LessonWorkshop key={lesson.id} lesson={lesson} />
+      <MethodusEntry course="philosophy" />
     </div>
   );
 }
