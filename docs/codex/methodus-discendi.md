@@ -61,9 +61,21 @@ Não há novo documento raiz, migração, exclusão ou alteração do esquema de
 - `<atividade>:completed`: conclusão explicitamente declarada, separada das conclusões curriculares.
 - `selected:<percurso>`: atividade selecionada para retomada.
 
-O prefixo completo antecede todos esses sufixos. As chaves v1, journals, espelhos, backups, IDs e respostas anteriores são mantidos. Os módulos `progress.ts`, `storage-lock.ts`, `disputatio-draft.ts`, os cinco testes B1 e os cinco testes de inicialização não são alterados.
+O prefixo completo antecede todos esses sufixos. As chaves v1, journals, espelhos, backups, IDs e respostas anteriores são mantidos. `storage-lock.ts`, `disputatio-draft.ts`, os cinco testes B1 e os cinco testes de inicialização não são alterados. A correção delimitada de recuperação acrescenta a `useProgress` a preparação de uma nota imutável dentro da trava já existente e a retentativa explícita de leitura/gravação pendente; não altera envelopes nem o caminho de edição dos rascunhos.
 
 Cada evento contém versão de envelope, atividade/revisão, identidade aleatória de 128 bits, timestamp, ordinal observado, respostas e resultado. O ordinal ordena sucessores conhecidos mesmo com relógio repetido ou regressivo. Eventos realmente concorrentes podem compartilhar ordinal; timestamp e identidade oferecem um desempate determinístico, sem alegar um relógio global. Uma identidade já presente bloqueia a gravação; falha de aleatoriedade não recorre a timestamp compartilhado. A aleatoriedade não é garantia matemática de unicidade.
+
+### Recuperação antes do registro definitivo
+
+A auditoria de 25/10/2026 demonstrou que, com leitura negada desde a inicialização, uma tentativa correta podia receber ordinal 1 antes de recuperar dois eventos antigos de ordinais 1 e 2. Os três registros sobreviviam, mas o último evento apresentado e a agenda regrediam. Prontidão do cliente não significa histórico legível.
+
+Rascunhos continuam editáveis durante a falha, conforme o PR #9. Novas tentativas, versões e a conclusão ficam indisponíveis enquanto houver erro de armazenamento; “Tentar ler histórico novamente” recupera os registros e tenta salvar as pendências sem recarregar nem apagar texto. Se a falha persistir, o registro não é liberado.
+
+O botão não é a única proteção: o handler usa `recordNote`, cuja função de preparação só roda depois de ler raiz e journals válidos dentro da mesma trava de progresso. Ela revalida o histórico da atividade, sua versão de partida e a conclusão, calcula `max(ordinal) + 1`, conserva a identidade de cada evento anterior e rejeita colisões ou repetição indevida. A gravação usa o protocolo existente, sem trava aninhada. Se a quota falhar depois dessa preparação, a tentativa fica pendente uma única vez, com aviso, e a recuperação a grava sem criar outra identidade.
+
+Uma versão acrescentada por outra aba enquanto a operação aguardava a trava participa do cálculo por seu journal, mesmo com espelho desatualizado. Web Locks serializa abas cooperantes; o fallback sem essa API mantém os journals independentes e o desempate determinístico, sem prometer ordenação global estrita entre processos com caches ainda não convergidos. Timestamps não substituem ordinais. Entradas inválidas ou futuras continuam preservadas e bloqueiam o registro, sem renumeração ou migração.
+
+Os testes de recuperação incluem histórico anterior, resposta correta/incorreta, versão discursiva sem nota, leitura persistentemente negada, interface desatualizada, atualização do journal durante a espera da trava, timestamps iguais, corrupção/versões futuras, quota/gravação negada, rejeição da trava e reconstrução após remontagem. O relatório externo distingue testes unitários de recargas reais em Chromium/WebKit e preserva o teste que falhou antes da correção.
 
 Antes de integrar a oficina às rotas, os testes cobriram compatibilidade, parsing, recuperação, quota, leitura negada, corrupção, espelhos desatualizados, hidratação e versões preservadas. Registros de atividade inválidos ou de envelope futuro não são substituídos: seus bytes podem ser inspecionados, o rascunho continua editável, mas novos eventos e conclusão daquela atividade são suspensos. Não existe botão de limpeza automática.
 

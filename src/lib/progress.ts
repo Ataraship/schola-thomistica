@@ -191,71 +191,104 @@ export function useProgress() {
     };
   }, []);
 
-  const update = useCallback((mutation: Mutation) => {
-    // Retain only local field changes, not a stale copy of the entire document.
-    // Replaying desired completion states is idempotent if another tab changes that ID.
-    pending = pending.filter(
-      (item) =>
-        item.kind !== mutation.kind ||
-        (item.kind !== "last" && mutation.kind !== "last" && item.id !== mutation.id),
-    );
-    pending.push(mutation);
-    releaseGuard ??= guardPendingStorage(() => pending.length > 0);
-    const publish = (result: Snapshot) => {
-      setSnapshot(result);
-      window.dispatchEvent(new CustomEvent(CHANGED, { detail: result }));
-    };
-    // Editing remains immediate while a different tab holds the asynchronous lock.
-    publish(read());
-    writeWithStorageLock(
-      PROGRESS_KEY,
-      () => {
-        // Earlier callbacks may already have flushed all current mutations.
-        if (!pending.length) return;
-        // Read after acquiring the lock, never before waiting for another writer.
-        const stored = readStored();
-        let next = applyMutations(stored.progress, pending);
-        let storageError: string | null = null;
-        try {
-          if (stored.raw === undefined || !stored.journalReady)
-            throw new Error("Cannot preserve unread storage");
-          // Never replace an unreadable document without preserving its exact bytes.
-          if (stored.storageError && stored.raw !== null)
-            localStorage.setItem(`${PROGRESS_KEY}-recovery-${Date.now()}`, stored.raw);
-          for (const mutation of pending)
-            writeStorageField(PROGRESS_KEY, mutationField(mutation), mutation, isMutation);
-          // The journal is authoritative per field; root may be a stale Chromium cache.
-          const refreshed = readStored();
-          if (!refreshed.journalReady) throw new Error("Cannot read saved storage fields");
-          if (
-            refreshed.storageError &&
-            refreshed.raw !== null &&
-            refreshed.raw !== undefined &&
-            refreshed.raw !== stored.raw
-          )
-            localStorage.setItem(`${PROGRESS_KEY}-recovery-${Date.now()}`, refreshed.raw);
-          next = applyMutations(refreshed.progress, pending);
-          if (!sameStoredJSON(refreshed.raw ?? null, next))
-            localStorage.setItem(PROGRESS_KEY, JSON.stringify(next));
-          pending = [];
-          lastKnown = next;
-          writeFailed = false;
-          mirrorFailed = false;
-          releaseGuard?.();
-          releaseGuard = undefined;
-        } catch {
-          writeFailed = true;
-          storageError = WRITE_ERROR;
-        }
-        publish({ progress: next, storageError });
-      },
-      () => {
-        if (!pending.length) return;
-        writeFailed = true;
-        publish({ ...read(), storageError: WRITE_ERROR });
-      },
-    );
-  }, []);
+  const update = useCallback(
+    (
+      change?: Mutation | ((progress: Progress) => Mutation),
+      recorded?: () => void,
+      rejected?: (error: unknown) => void,
+    ) => {
+      const enqueue = (mutation: Mutation) => {
+        // Retain only local field changes, not a stale copy of the entire document.
+        // Replaying desired completion states is idempotent if another tab changes that ID.
+        pending = pending.filter(
+          (item) =>
+            item.kind !== mutation.kind ||
+            (item.kind !== "last" && mutation.kind !== "last" && item.id !== mutation.id),
+        );
+        pending.push(mutation);
+        releaseGuard ??= guardPendingStorage(() => pending.length > 0);
+      };
+      const publish = (result: Snapshot) => {
+        setSnapshot(result);
+        window.dispatchEvent(new CustomEvent(CHANGED, { detail: result }));
+      };
+      // Editing remains immediate while a different tab holds the asynchronous lock.
+      if (change && typeof change !== "function") enqueue(change);
+      publish(read());
+      writeWithStorageLock(
+        PROGRESS_KEY,
+        () => {
+          // Immutable records must be prepared against readable history inside the
+          // existing lock. Never queue an event computed from an unread/stale UI.
+          if (typeof change === "function") {
+            try {
+              const stored = readStored();
+              if (stored.storageError || stored.raw === undefined || !stored.journalReady)
+                throw new Error(
+                  "Não foi possível ler o histórico completo. Continue o rascunho e tente ler novamente antes de registrar.",
+                );
+              enqueue(change(applyMutations(stored.progress, pending)));
+            } catch (error) {
+              publish(read());
+              rejected?.(error);
+              return;
+            }
+          }
+          // Earlier callbacks may already have flushed all current mutations.
+          if (!pending.length) {
+            publish(read());
+            return;
+          }
+          // Read after acquiring the lock, never before waiting for another writer.
+          const stored = readStored();
+          let next = applyMutations(stored.progress, pending);
+          let storageError: string | null = null;
+          try {
+            if (stored.raw === undefined || !stored.journalReady)
+              throw new Error("Cannot preserve unread storage");
+            // Never replace an unreadable document without preserving its exact bytes.
+            if (stored.storageError && stored.raw !== null)
+              localStorage.setItem(`${PROGRESS_KEY}-recovery-${Date.now()}`, stored.raw);
+            for (const mutation of pending)
+              writeStorageField(PROGRESS_KEY, mutationField(mutation), mutation, isMutation);
+            // The journal is authoritative per field; root may be a stale Chromium cache.
+            const refreshed = readStored();
+            if (!refreshed.journalReady) throw new Error("Cannot read saved storage fields");
+            if (
+              refreshed.storageError &&
+              refreshed.raw !== null &&
+              refreshed.raw !== undefined &&
+              refreshed.raw !== stored.raw
+            )
+              localStorage.setItem(`${PROGRESS_KEY}-recovery-${Date.now()}`, refreshed.raw);
+            next = applyMutations(refreshed.progress, pending);
+            if (!sameStoredJSON(refreshed.raw ?? null, next))
+              localStorage.setItem(PROGRESS_KEY, JSON.stringify(next));
+            pending = [];
+            lastKnown = next;
+            writeFailed = false;
+            mirrorFailed = false;
+            releaseGuard?.();
+            releaseGuard = undefined;
+          } catch {
+            writeFailed = true;
+            storageError = WRITE_ERROR;
+          }
+          publish({ progress: next, storageError });
+          if (storageError) rejected?.(new Error(storageError));
+          else recorded?.();
+        },
+        () => {
+          if (pending.length) {
+            writeFailed = true;
+            publish({ ...read(), storageError: WRITE_ERROR });
+          }
+          rejected?.(new Error(WRITE_ERROR));
+        },
+      );
+    },
+    [],
+  );
 
   const toggle = useCallback(
     (id: string) => {
@@ -273,6 +306,28 @@ export function useProgress() {
     [update],
   );
 
+  const recordNote = useCallback(
+    (
+      create: (progress: Progress) => { id: string; value: string },
+      recorded: () => void,
+      rejected: (error: unknown) => void,
+    ) =>
+      update(
+        (progress) => {
+          const note = create(progress);
+          if (progress.notes[note.id] !== undefined)
+            throw new Error(
+              "A identidade do registro já está ocupada. Sua resposta foi mantida; tente registrar novamente.",
+            );
+          return { kind: "note", ...note };
+        },
+        recorded,
+        rejected,
+      ),
+    [update],
+  );
+  const refresh = useCallback(() => update(), [update]);
+
   return {
     progress: snapshot.progress,
     storageError: snapshot.storageError,
@@ -280,5 +335,7 @@ export function useProgress() {
     toggle,
     setLast,
     setNote,
+    recordNote,
+    refresh,
   };
 }

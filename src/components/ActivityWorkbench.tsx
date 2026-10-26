@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { ACTIVITIES } from "@/data/activities";
 import { ActivityEditor } from "@/components/ActivityEditor";
 import { useProgress } from "@/lib/progress";
@@ -58,7 +58,9 @@ export function ActivityWorkbench({
   now: number;
   onRecorded: () => void;
 }) {
-  const { progress, isReady, storageError, setNote } = useProgress();
+  const { progress, isReady, storageError, setNote, recordNote, refresh } = useProgress();
+  const recording = useRef(false);
+  const [saving, setSaving] = useState(false);
   const [actionError, setActionError] = useState<string | null>(null);
   const [showGuide, setShowGuide] = useState(false);
   const answers = Object.fromEntries(
@@ -99,26 +101,70 @@ export function ActivityWorkbench({
     );
 
   const saveVersion = () => {
-    try {
-      const ordinal = history.events.reduce((max, event) => Math.max(max, event.ordinal), 0) + 1;
-      const event = newActivityEvent(activity, answers, Date.now(), source, ordinal);
-      const key = eventPrefix(activity.id) + event.id;
-      if (progress.notes[key] !== undefined)
-        throw new Error(
-          "A identidade do registro já está ocupada. Sua resposta foi mantida; tente registrar novamente.",
+    if (!isReady || recording.current) return;
+    recording.current = true;
+    setSaving(true);
+    const finished = () => {
+      recording.current = false;
+      setSaving(false);
+    };
+    recordNote(
+      (fresh) => {
+        const recovered = activityHistory(fresh.notes, activity);
+        const recoveredSource = sourceActivity
+          ? activityHistory(fresh.notes, sourceActivity)
+          : undefined;
+        const declared = fresh.notes[completionKey(activity.id)];
+        if (
+          recovered.invalid.length ||
+          recoveredSource?.invalid.length ||
+          (declared !== undefined && declared !== "yes" && declared !== "no")
+        )
+          throw new Error(
+            "Há registros inválidos ou de versão desconhecida. O rascunho foi mantido; recupere o histórico antes de registrar.",
+          );
+        const ordinal =
+          recovered.events.reduce((max, event) => Math.max(max, event.ordinal), 0) + 1;
+        if (!Number.isSafeInteger(ordinal))
+          throw new Error(
+            "O histórico atingiu o limite de ordenação. Seus registros foram preservados.",
+          );
+        const previous = recovered.events
+          .filter((event) => event.revision === activity.revision)
+          .at(-1);
+        const due = reviewSchedule(activity, recovered.events)?.dueAt;
+        const at = Date.now();
+        if (
+          previous &&
+          activityFields(activity).every(
+            (field) => previous.answers[field.id] === answers[field.id],
+          ) &&
+          !(previous.result === "correct" && due !== null && due !== undefined && due <= at)
+        )
+          throw new Error("Esta resposta já foi registrada. Seu histórico foi atualizado.");
+        const start = recoveredSource?.events
+          .filter((event) => event.revision === sourceActivity?.revision)
+          .at(-1);
+        const event = newActivityEvent(activity, answers, at, start, ordinal);
+        const key = eventPrefix(activity.id) + event.id;
+        const raw = JSON.stringify(event);
+        parseActivityEvent(raw, activity, key);
+        return { id: key, value: raw };
+      },
+      () => {
+        finished();
+        onRecorded();
+        setActionError(null);
+      },
+      (error) => {
+        finished();
+        setActionError(
+          error instanceof Error
+            ? error.message
+            : "Não foi possível registrar. Suas respostas foram mantidas.",
         );
-      const raw = JSON.stringify(event);
-      parseActivityEvent(raw, activity, key);
-      setNote(key, raw);
-      onRecorded();
-      setActionError(null);
-    } catch (error) {
-      setActionError(
-        error instanceof Error
-          ? error.message
-          : "Não foi possível registrar. Suas respostas foram mantidas.",
-      );
-    }
+      },
+    );
   };
   return (
     <article className="folio p-5 sm:p-6 mt-5" aria-labelledby={`${activity.id}-title`}>
@@ -133,9 +179,25 @@ export function ActivityWorkbench({
         </p>
       )}
       {storageError && (
-        <p role="alert" className="text-primary mt-3">
-          {storageError}
-        </p>
+        <div className="mt-3">
+          <p role="alert" className="text-primary">
+            {storageError}
+          </p>
+          <p>
+            O rascunho permanece editável. Novas tentativas e versões aguardam a leitura segura do
+            histórico.
+          </p>
+          <button
+            type="button"
+            className="btn btn-ghost mt-2"
+            onClick={() => {
+              setActionError(null);
+              refresh();
+            }}
+          >
+            Tentar ler histórico novamente
+          </button>
+        </div>
       )}
       {actionError && (
         <p role="alert" className="mt-3">
@@ -213,7 +275,13 @@ export function ActivityWorkbench({
         type="button"
         className="btn mt-4"
         disabled={
-          !isReady || !complete || blocked || !allowNew || (activity.kind === "revision" && !source)
+          !isReady ||
+          !!storageError ||
+          saving ||
+          !complete ||
+          blocked ||
+          !allowNew ||
+          (activity.kind === "revision" && !source)
         }
         onClick={saveVersion}
       >
@@ -254,7 +322,7 @@ export function ActivityWorkbench({
       <button
         type="button"
         className="btn btn-green mt-4"
-        disabled={!isReady || blocked}
+        disabled={!isReady || !!storageError || blocked}
         aria-pressed={completion === "yes"}
         onClick={() => setNote(completionKey(activity.id), completion === "yes" ? "no" : "yes")}
       >
